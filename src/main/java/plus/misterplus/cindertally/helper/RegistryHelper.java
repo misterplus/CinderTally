@@ -6,9 +6,9 @@ import net.minecraft.item.Rarity;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import plus.misterplus.cindertally.CinderTally;
 import plus.misterplus.cindertally.CinderTallyConstants;
 import plus.misterplus.cindertally.common.item.ItemCinderTally;
+import plus.misterplus.cindertally.common.item.ItemDebugStick;
 import plus.misterplus.cindertally.common.item.ItemLifeSpan;
 
 public class RegistryHelper {
@@ -27,6 +27,7 @@ public class RegistryHelper {
         registerItem("lifespan_year", new ItemLifeSpan(propertiesLifeSpan(), 365));
         registerItem("lifespan_decade", new ItemLifeSpan(propertiesLifeSpan(), 3650));
         registerItem("cinder_tally", new ItemCinderTally(new Item.Properties().tab(ItemGroup.TAB_MISC).stacksTo(1).rarity(Rarity.EPIC)));
+        registerItem("debug_stick", new ItemDebugStick(new Item.Properties().tab(ItemGroup.TAB_MISC).stacksTo(1).rarity(Rarity.EPIC)));
         return ITEMS;
     }
 }

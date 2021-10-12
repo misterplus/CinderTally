@@ -1,32 +1,14 @@
 package plus.misterplus.cindertally;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Rarity;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import plus.misterplus.cindertally.common.item.ItemLifeSpan;
-import plus.misterplus.cindertally.handler.PlayerEventHandler;
+import plus.misterplus.cindertally.common.event.PlayerEventHandler;
 import plus.misterplus.cindertally.helper.RegistryHelper;
-
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
+import plus.misterplus.cindertally.network.CinderTallyPacketHandler;
 
 @Mod(CinderTallyConstants.MOD_ID)
 public class CinderTally {
@@ -50,6 +32,10 @@ public class CinderTally {
         CinderTally.LOGGER.debug("Registering event buses...");
         MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
         CinderTally.LOGGER.debug("Event buses registered!");
+
+        CinderTally.LOGGER.debug("Registering packets...");
+        CinderTallyPacketHandler.registerPackets();
+        CinderTally.LOGGER.debug("Packets registered!");
     }
 
 //    private void setup(final FMLCommonSetupEvent event)

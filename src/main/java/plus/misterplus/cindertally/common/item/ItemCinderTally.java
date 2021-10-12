@@ -7,8 +7,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextComponent;
-import net.minecraft.util.text.TextComponentUtils;
 import net.minecraft.world.World;
 import plus.misterplus.cindertally.helper.NBTHelper;
 
@@ -24,8 +22,9 @@ public class ItemCinderTally extends Item {
 
     @Override
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        if (!world.isClientSide)
+        if (!world.isClientSide) {
             player.sendMessage(new StringTextComponent(String.valueOf(NBTHelper.getLifespan(player))), Util.NIL_UUID);
+        }
         return ActionResult.success(player.getItemInHand(hand));
     }
 }

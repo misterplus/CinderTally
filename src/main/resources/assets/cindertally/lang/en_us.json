@@ -1,5 +1,8 @@
 {
   "item.cindertally.lifespan_year": "Year",
   "item.cindertally.lifespan_decade": "Decade",
-  "item.cindertally.cinder_tally": "Cinder Tally"
+  "item.cindertally.cinder_tally": "Cinder Tally",
+  "item.cindertally.debug_stick": "Debug Stick",
+  "msg.cindertally.kick": "You're spent every last heartbeat of your life, now it's time to say goodbye to this world.",
+  "msg.cindertally.banned": "You're out of time, now move on, to your next life."
 }

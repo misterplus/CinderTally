@@ -21,11 +21,21 @@ public class NBTHelper {
         int lifespan = player.getCommandSenderWorld().random.nextInt(30) + 70;
         // nbt stored in ticks
         getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, lifespan * 365 * 20 * 60 * 20);
-        CinderTally.LOGGER.debug("Init lifespan for player " + player.getName().getContents() + ": " + lifespan + " years.");
+        CinderTally.LOGGER.debug(String.format("Init lifespan for player %s: %d years.", player.getName().getContents(), lifespan));
     }
 
-    public static void diminishLifespan(PlayerEntity player) {
-        getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, getPersistedData(player, false).getInt("cindertally_lifespan") - 1);
+    public static boolean diminishLifespan(PlayerEntity player) {
+        int remain = getLifespan(player) - 1;
+        if (remain > 0) {
+            getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, remain);
+            return false;
+        }
+        else
+            return true;
+    }
+
+    public static void setLifespan(PlayerEntity player, int lifespan) {
+        getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, lifespan);
     }
 
     public static int getLifespan(PlayerEntity player) {
