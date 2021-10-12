@@ -22,7 +22,7 @@ public class ReckoningPacket {
 
     public static void handle(ReckoningPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CinderTallyClientPacketHandler.handlePacket(packet, ctx));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CinderTallyClientPacketHandler.handleReckoningPacket(packet, ctx));
         });
         ctx.get().setPacketHandled(true);
     }

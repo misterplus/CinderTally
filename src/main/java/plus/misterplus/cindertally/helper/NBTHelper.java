@@ -25,13 +25,17 @@ public class NBTHelper {
     }
 
     public static boolean diminishLifespan(PlayerEntity player) {
+        if (!player.isAlive() || player.isCreative() || player.isSpectator())
+            return false;
         int remain = getLifespan(player) - 1;
         if (remain > 0) {
             getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, remain);
             return false;
         }
-        else
+        else {
+            getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, remain);
             return true;
+        }
     }
 
     public static void setLifespan(PlayerEntity player, int lifespan) {

@@ -49,7 +49,7 @@ public class LocalePacket {
             String name = player.getName().getContents();
             MinecraftServer server = player.getServer();
             //  server receives the packet, checks if player is actually out of time, then kick & ban them
-            if (NBTHelper.getLifespan(player) == 1) {
+            if (NBTHelper.getLifespan(player) == 0) {
                 CinderTally.LOGGER.debug(String.format("Player %s out of time, kicking...", name));
                 CommandHelper.executeCommand(server, String.format("/kick %s %s", name, packet.msgKick));
                 CommandHelper.executeCommand(server, String.format("/ban %s %s", name, packet.msgBanned));
