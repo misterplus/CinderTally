@@ -34,6 +34,7 @@ public class PlayerEventHandler {
         boolean outOfLife = NBTHelper.diminishLifespan(player);
         if (!world.isClientSide() && outOfLife && player.isAlive()) {
             if (player.getServer().isSingleplayer()) {
+                // if on singleplayer: set player to gm3 then shows a death screen
                 player.setGameMode(GameType.SPECTATOR);
                 CinderTallyPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new SReckoningPacket());
             } else {

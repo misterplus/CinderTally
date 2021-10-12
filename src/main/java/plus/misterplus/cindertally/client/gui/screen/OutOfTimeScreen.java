@@ -12,8 +12,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 
+/**
+ * A death screen that shows when players ran out of time in singleplayer.
+ */
 @OnlyIn(Dist.CLIENT)
 public class OutOfTimeScreen extends Screen {
+
     private int delayTicker;
     private final ITextComponent causeOfDeath;
     private ITextComponent deathScore;
