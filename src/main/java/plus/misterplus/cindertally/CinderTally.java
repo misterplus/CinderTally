@@ -7,7 +7,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import plus.misterplus.cindertally.common.event.PlayerEventHandler;
-import plus.misterplus.cindertally.helper.RegistryHelper;
+import plus.misterplus.cindertally.registry.CinderTallyRegistry;
 import plus.misterplus.cindertally.network.CinderTallyPacketHandler;
 
 @Mod(CinderTallyConstants.MOD_ID)
@@ -26,8 +26,12 @@ public class CinderTally {
 //        modEventBus.addListener(this::doClientStuff);
 
         CinderTally.LOGGER.debug("Registering items...");
-        RegistryHelper.registerItems().register(modEventBus);
+        CinderTallyRegistry.registerItems().register(modEventBus);
         CinderTally.LOGGER.debug("Items registered!");
+
+        CinderTally.LOGGER.debug("Registering effects...");
+        CinderTallyRegistry.registerEffects().register(modEventBus);
+        CinderTally.LOGGER.debug("Effects registered!");
 
         CinderTally.LOGGER.debug("Registering event buses...");
         MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());

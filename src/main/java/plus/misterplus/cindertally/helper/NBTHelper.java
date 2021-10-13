@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import plus.misterplus.cindertally.CinderTally;
 import plus.misterplus.cindertally.CinderTallyConstants;
+import plus.misterplus.cindertally.registry.CinderTallyEffects;
 
 public class NBTHelper {
 
@@ -25,7 +26,7 @@ public class NBTHelper {
     }
 
     public static boolean diminishLifespan(PlayerEntity player) {
-        if (!player.isAlive() || player.isCreative() || player.isSpectator())
+        if (!player.isAlive() || player.isCreative() || player.isSpectator() || player.hasEffect(CinderTallyEffects.FROZEN_TIME))
             return false;
         int remain = getLifespan(player) - 1;
         if (remain > 0) {

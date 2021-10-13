@@ -1,4 +1,10 @@
 {
+  "item.cindertally.lifespan_quarter": "Quarter",
+  "item.cindertally.lifespan_hour": "Hour",
+  "item.cindertally.lifespan_day": "Day",
+  "item.cindertally.lifespan_week": "Week",
+  "item.cindertally.lifespan_month": "Month",
+  "item.cindertally.lifespan_season": "Season",
   "item.cindertally.lifespan_year": "Year",
   "item.cindertally.lifespan_decade": "Decade",
   "item.cindertally.cinder_tally": "Cinder Tally",
