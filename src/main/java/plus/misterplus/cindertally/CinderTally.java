@@ -26,13 +26,9 @@ public class CinderTally {
         // Register the doClientStuff method for modloading
 //        modEventBus.addListener(this::doClientStuff);
 
-        CinderTally.LOGGER.debug("Registering items...");
-        CinderTallyRegistry.registerItems().register(modEventBus);
-        CinderTally.LOGGER.debug("Items registered!");
-
-        CinderTally.LOGGER.debug("Registering effects...");
-        CinderTallyRegistry.registerEffects().register(modEventBus);
-        CinderTally.LOGGER.debug("Effects registered!");
+        CinderTally.LOGGER.debug("Registering...");
+        CinderTallyRegistry.registerAll(modEventBus);
+        CinderTally.LOGGER.debug("Entries registered!");
 
         CinderTally.LOGGER.debug("Registering event buses...");
         MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
