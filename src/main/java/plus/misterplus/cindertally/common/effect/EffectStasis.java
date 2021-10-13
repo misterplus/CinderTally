@@ -7,9 +7,9 @@ import net.minecraft.potion.EffectType;
 /**
  * An effect that freezes players' time.
  */
-public class EffectFrozenTime extends Effect {
+public class EffectStasis extends Effect {
 
-    public EffectFrozenTime() {
+    public EffectStasis() {
         super(EffectType.NEUTRAL, 16777037);
     }
 

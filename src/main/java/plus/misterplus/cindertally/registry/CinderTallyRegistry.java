@@ -8,7 +8,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import plus.misterplus.cindertally.CinderTallyConstants;
-import plus.misterplus.cindertally.common.effect.EffectFrozenTime;
+import plus.misterplus.cindertally.common.effect.EffectStasis;
 import plus.misterplus.cindertally.common.item.ItemCinderTally;
 import plus.misterplus.cindertally.common.item.ItemDebugStick;
 import plus.misterplus.cindertally.common.item.ItemLifeSpan;
@@ -43,7 +43,7 @@ public class CinderTallyRegistry {
     }
 
     public static DeferredRegister<Effect> registerEffects() {
-        registerEffect("frozen_time", new EffectFrozenTime());
+        registerEffect("stasis", new EffectStasis());
         return EFFECTS;
     }
 }

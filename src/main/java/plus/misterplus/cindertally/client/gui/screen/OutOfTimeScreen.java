@@ -62,12 +62,10 @@ public class OutOfTimeScreen extends Screen {
         RenderSystem.scalef(2.0F, 2.0F, 2.0F);
         drawCenteredString(p_230430_1_, this.font, this.title, this.width / 2 / 2, 30, 16777215);
         RenderSystem.popMatrix();
-        if (this.causeOfDeath != null) {
-            drawCenteredString(p_230430_1_, this.font, this.causeOfDeath, this.width / 2, 85, 16777215);
-        }
+        drawCenteredString(p_230430_1_, this.font, this.causeOfDeath, this.width / 2, 85, 16777215);
 
         drawCenteredString(p_230430_1_, this.font, this.deathScore, this.width / 2, 100, 16777215);
-        if (this.causeOfDeath != null && p_230430_3_ > 85 && p_230430_3_ < 85 + 9) {
+        if (p_230430_3_ > 85 && p_230430_3_ < 85 + 9) {
             Style style = this.getClickedComponentStyleAt(p_230430_2_);
             this.renderComponentHoverEffect(p_230430_1_, style, p_230430_2_, p_230430_3_);
         }
@@ -77,18 +75,14 @@ public class OutOfTimeScreen extends Screen {
 
     @Nullable
     private Style getClickedComponentStyleAt(int p_238623_1_) {
-        if (this.causeOfDeath == null) {
-            return null;
-        } else {
-            int i = this.minecraft.font.width(this.causeOfDeath);
-            int j = this.width / 2 - i / 2;
-            int k = this.width / 2 + i / 2;
-            return p_238623_1_ >= j && p_238623_1_ <= k ? this.minecraft.font.getSplitter().componentStyleAtWidth(this.causeOfDeath, p_238623_1_ - j) : null;
-        }
+        int i = this.minecraft.font.width(this.causeOfDeath);
+        int j = this.width / 2 - i / 2;
+        int k = this.width / 2 + i / 2;
+        return p_238623_1_ >= j && p_238623_1_ <= k ? this.minecraft.font.getSplitter().componentStyleAtWidth(this.causeOfDeath, p_238623_1_ - j) : null;
     }
 
     public boolean mouseClicked(double p_231044_1_, double p_231044_3_, int p_231044_5_) {
-        if (this.causeOfDeath != null && p_231044_3_ > 85.0D && p_231044_3_ < (double)(85 + 9)) {
+        if (p_231044_3_ > 85.0D && p_231044_3_ < (double)(85 + 9)) {
             Style style = this.getClickedComponentStyleAt((int)p_231044_1_);
             if (style != null && style.getClickEvent() != null && style.getClickEvent().getAction() == ClickEvent.Action.OPEN_URL) {
                 this.handleComponentClicked(style);

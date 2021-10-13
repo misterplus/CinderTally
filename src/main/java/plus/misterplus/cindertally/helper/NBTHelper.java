@@ -2,6 +2,7 @@ package plus.misterplus.cindertally.helper;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.Effect;
 import plus.misterplus.cindertally.CinderTally;
 import plus.misterplus.cindertally.CinderTallyConstants;
 import plus.misterplus.cindertally.registry.CinderTallyEffects;
@@ -26,7 +27,7 @@ public class NBTHelper {
     }
 
     public static boolean diminishLifespan(PlayerEntity player) {
-        if (!player.isAlive() || player.isCreative() || player.isSpectator() || player.hasEffect(CinderTallyEffects.FROZEN_TIME))
+        if (!player.isAlive() || player.isCreative() || player.isSpectator() || EffectHelper.isInStasis(player))
             return false;
         int remain = getLifespan(player) - 1;
         if (remain > 0) {
