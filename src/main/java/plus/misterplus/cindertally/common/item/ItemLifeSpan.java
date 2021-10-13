@@ -22,10 +22,10 @@ public class ItemLifeSpan extends Item {
     public static final int VALUE_HOUR = 20 * 60 * 20 / 24;
     public static final int VALUE_DAY = 20 * 60 * 20;
     public static final int VALUE_WEEK = 7 * 20 * 60 * 20;
-    public static final int VALUE_MONTH = 30 * 20 * 60 * 20;
-    public static final int VALUE_SEASON = 90 * 20 * 60 * 20;
-    public static final int VALUE_YEAR = 365 * 20 * 60 * 20;
-    public static final int VALUE_DECADE =  3650 * 20 * 60 * 20;
+    public static final int VALUE_MONTH = 28 * 20 * 60 * 20;
+    public static final int VALUE_SEASON = 84 * 20 * 60 * 20;
+    public static final int VALUE_YEAR = 336 * 20 * 60 * 20;
+    public static final int VALUE_DECADE =  3360 * 20 * 60 * 20;
 
     public ItemLifeSpan(Properties properties, int value) {
         super(properties);

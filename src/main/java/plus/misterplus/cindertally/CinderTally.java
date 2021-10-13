@@ -27,7 +27,7 @@ public class CinderTally {
 //        modEventBus.addListener(this::doClientStuff);
 
         CinderTally.LOGGER.debug("Registering...");
-        CinderTallyRegistry.registerAll(modEventBus);
+        CinderTallyRegistry.register(modEventBus);
         CinderTally.LOGGER.debug("Entries registered!");
 
         CinderTally.LOGGER.debug("Registering event buses...");

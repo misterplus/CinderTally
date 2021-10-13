@@ -1,10 +1,10 @@
 package plus.misterplus.cindertally.helper;
 
 import net.minecraft.entity.player.PlayerEntity;
-import plus.misterplus.cindertally.registry.CinderTallyEffects;
+import plus.misterplus.cindertally.registry.CinderTallyRegistry;
 
 public class EffectHelper {
     public static boolean isInStasis(PlayerEntity player) {
-        return player.hasEffect(CinderTallyEffects.STASIS);
+        return player.hasEffect(CinderTallyRegistry.STASIS) || player.isCreative();
     }
 }
