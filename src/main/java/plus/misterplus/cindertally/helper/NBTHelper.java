@@ -32,8 +32,7 @@ public class NBTHelper {
         if (remain > 0) {
             getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, remain);
             return false;
-        }
-        else {
+        } else {
             getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, remain);
             return true;
         }

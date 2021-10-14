@@ -7,11 +7,10 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import plus.misterplus.cindertally.common.inventory.container.CinderTallyContainer;
@@ -20,7 +19,6 @@ import plus.misterplus.cindertally.helper.LifespanHelper;
 import plus.misterplus.cindertally.helper.NBTHelper;
 
 import javax.annotation.Nullable;
-import java.util.function.Consumer;
 
 /**
  * The tally that records life of all living creatures.<br>
@@ -42,7 +40,7 @@ public class ItemCinderTally extends Item {
                 NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider() {
                     @Override
                     public ITextComponent getDisplayName() {
-                        return null;
+                        return new StringTextComponent("");
                     }
 
                     @Nullable

@@ -2,7 +2,10 @@ package plus.misterplus.cindertally.client.gui.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.screen.*;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.client.gui.screen.DirtMessageScreen;
+import net.minecraft.client.gui.screen.MainMenuScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.*;
@@ -11,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * A death screen that shows when players ran out of time in singleplayer.
@@ -18,8 +22,8 @@ import javax.annotation.Nullable;
 @OnlyIn(Dist.CLIENT)
 public class OutOfTimeScreen extends Screen {
 
-    private int delayTicker;
     private final ITextComponent causeOfDeath;
+    private int delayTicker;
     private ITextComponent deathScore;
 
     public OutOfTimeScreen() {
@@ -29,14 +33,12 @@ public class OutOfTimeScreen extends Screen {
 
     protected void init() {
         this.delayTicker = 0;
-        this.addButton(new Button(this.width / 2 - 100, this.height / 4 + 72, 200, 20, new TranslationTextComponent("deathScreen.spectate"), (p_213021_1_) -> {
-            this.minecraft.setScreen((Screen)null);
-        }));
+        this.addButton(new Button(this.width / 2 - 100, this.height / 4 + 72, 200, 20, new TranslationTextComponent("deathScreen.spectate"), (p_213021_1_) -> this.minecraft.setScreen(null)));
         this.addButton(new Button(this.width / 2 - 100, this.height / 4 + 96, 200, 20, new TranslationTextComponent("deathScreen.titleScreen"), (p_213020_1_) -> {
             this.exitToTitleScreen();
         }));
 
-        for(Widget widget : this.buttons) {
+        for (Widget widget : this.buttons) {
             widget.active = false;
         }
 
@@ -82,8 +84,8 @@ public class OutOfTimeScreen extends Screen {
     }
 
     public boolean mouseClicked(double p_231044_1_, double p_231044_3_, int p_231044_5_) {
-        if (p_231044_3_ > 85.0D && p_231044_3_ < (double)(85 + 9)) {
-            Style style = this.getClickedComponentStyleAt((int)p_231044_1_);
+        if (p_231044_3_ > 85.0D && p_231044_3_ < (double) (85 + 9)) {
+            Style style = this.getClickedComponentStyleAt((int) p_231044_1_);
             if (style != null && style.getClickEvent() != null && style.getClickEvent().getAction() == ClickEvent.Action.OPEN_URL) {
                 this.handleComponentClicked(style);
                 return false;
@@ -101,7 +103,7 @@ public class OutOfTimeScreen extends Screen {
         super.tick();
         ++this.delayTicker;
         if (this.delayTicker == 20) {
-            for(Widget widget : this.buttons) {
+            for (Widget widget : this.buttons) {
                 widget.active = true;
             }
         }

@@ -14,7 +14,8 @@ import java.util.function.Supplier;
  */
 public class ReckoningPacket {
 
-    public static void encode(ReckoningPacket packet, PacketBuffer packetBuffer) {}
+    public static void encode(ReckoningPacket packet, PacketBuffer packetBuffer) {
+    }
 
     public static ReckoningPacket decode(PacketBuffer packetBuffer) {
         return new ReckoningPacket();

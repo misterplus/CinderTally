@@ -7,7 +7,6 @@ public class Lifespan {
     private final int value;
 
     /**
-     *
      * @param value The value of a lifespan, in in-game ticks.
      */
     public Lifespan(int value) {

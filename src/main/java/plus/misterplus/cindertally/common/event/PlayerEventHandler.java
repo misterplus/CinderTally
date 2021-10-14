@@ -20,8 +20,10 @@ import plus.misterplus.cindertally.network.packet.SReckoningPacket;
 public class PlayerEventHandler {
 
     @SubscribeEvent
-    public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         PlayerEntity player = event.getPlayer();
+        if (player.getCommandSenderWorld().isClientSide())
+            return;
         boolean isFirstLogin = NBTHelper.isFirstLogin(player);
         CinderTally.LOGGER.debug(String.format("%s is first time login: %b", event.getPlayer().getName().getContents(), isFirstLogin));
         if (isFirstLogin)
@@ -29,13 +31,15 @@ public class PlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         PlayerEntity player = event.player;
         World world = player.getCommandSenderWorld();
+        if (world.isClientSide())
+            return;
         if (NBTHelper.getLifespan(player) == 0)
             return;
         boolean outOfLife = NBTHelper.diminishLifespan(player);
-        if (!world.isClientSide() && outOfLife && player.isAlive()) {
+        if (outOfLife && player.isAlive()) {
             if (player.getServer().isSingleplayer()) {
                 // if on singleplayer: set player to gm3 then shows a death screen
                 player.setGameMode(GameType.SPECTATOR);

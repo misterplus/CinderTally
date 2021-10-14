@@ -9,7 +9,8 @@ import plus.misterplus.cindertally.network.CinderTallyClientPacketHandler;
 import java.util.function.Supplier;
 
 public class SReckoningPacket {
-    public static void encode(SReckoningPacket packet, PacketBuffer packetBuffer) {}
+    public static void encode(SReckoningPacket packet, PacketBuffer packetBuffer) {
+    }
 
     public static SReckoningPacket decode(PacketBuffer packetBuffer) {
         return new SReckoningPacket();

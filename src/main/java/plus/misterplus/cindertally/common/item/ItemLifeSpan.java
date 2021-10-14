@@ -9,15 +9,6 @@ import net.minecraft.item.ItemGroup;
  */
 public class ItemLifeSpan extends Item {
 
-    public int getValue() {
-        return value;
-    }
-
-    /**
-     * Lifespan value in ticks
-     */
-    private int value;
-
     public static final int VALUE_QUARTER = 20 * 60 * 20 / 24 / 4;
     public static final int VALUE_HOUR = 20 * 60 * 20 / 24;
     public static final int VALUE_DAY = 20 * 60 * 20;
@@ -25,8 +16,11 @@ public class ItemLifeSpan extends Item {
     public static final int VALUE_MONTH = 28 * 20 * 60 * 20;
     public static final int VALUE_SEASON = 84 * 20 * 60 * 20;
     public static final int VALUE_YEAR = 336 * 20 * 60 * 20;
-    public static final int VALUE_DECADE =  3360 * 20 * 60 * 20;
-
+    public static final int VALUE_DECADE = 3360 * 20 * 60 * 20;
+    /**
+     * Lifespan value in ticks
+     */
+    private final int value;
     public ItemLifeSpan(Properties properties, int value) {
         super(properties);
         this.value = value;
@@ -34,5 +28,9 @@ public class ItemLifeSpan extends Item {
 
     public static Item.Properties properties() {
         return new Item.Properties().tab(ItemGroup.TAB_MISC);
+    }
+
+    public int getValue() {
+        return value;
     }
 }

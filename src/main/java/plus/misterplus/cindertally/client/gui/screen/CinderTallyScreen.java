@@ -2,6 +2,7 @@ package plus.misterplus.cindertally.client.gui.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -9,7 +10,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import plus.misterplus.cindertally.common.inventory.container.CinderTallyContainer;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @OnlyIn(Dist.CLIENT)
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class CinderTallyScreen extends ContainerScreen<CinderTallyContainer> {
 
     public CinderTallyScreen(CinderTallyContainer container, PlayerInventory inventory, ITextComponent title) {
