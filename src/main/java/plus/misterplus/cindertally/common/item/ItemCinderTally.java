@@ -29,7 +29,6 @@ import java.util.function.Consumer;
  * @see plus.misterplus.cindertally.common.item.ItemLifeSpan
  */
 public class ItemCinderTally extends Item {
-    private static final ITextComponent CONTAINER_TITLE = new TranslationTextComponent("container.cindertally.cindertally");
 
     public ItemCinderTally(Properties properties) {
         super(properties);
@@ -43,7 +42,7 @@ public class ItemCinderTally extends Item {
                 NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider() {
                     @Override
                     public ITextComponent getDisplayName() {
-                        return CONTAINER_TITLE;
+                        return null;
                     }
 
                     @Nullable
