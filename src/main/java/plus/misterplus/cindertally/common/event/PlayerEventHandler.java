@@ -7,13 +7,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.PacketDistributor;
 import plus.misterplus.cindertally.CinderTally;
+import plus.misterplus.cindertally.CinderTallyConstants;
 import plus.misterplus.cindertally.helper.NBTHelper;
 import plus.misterplus.cindertally.network.CinderTallyPacketHandler;
 import plus.misterplus.cindertally.network.packet.ReckoningPacket;
 import plus.misterplus.cindertally.network.packet.SReckoningPacket;
 
+@Mod.EventBusSubscriber(modid = CinderTallyConstants.MOD_ID)
 public class PlayerEventHandler {
 
     @SubscribeEvent

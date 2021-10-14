@@ -7,7 +7,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import plus.misterplus.cindertally.common.event.PlayerEventHandler;
-import plus.misterplus.cindertally.common.event.RenderEventHandler;
 import plus.misterplus.cindertally.registry.CinderTallyRegistry;
 import plus.misterplus.cindertally.network.CinderTallyPacketHandler;
 
@@ -29,11 +28,6 @@ public class CinderTally {
         CinderTally.LOGGER.debug("Registering...");
         CinderTallyRegistry.register(modEventBus);
         CinderTally.LOGGER.debug("Entries registered!");
-
-        CinderTally.LOGGER.debug("Registering event buses...");
-        MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
-        MinecraftForge.EVENT_BUS.register(new RenderEventHandler());
-        CinderTally.LOGGER.debug("Event buses registered!");
 
         CinderTally.LOGGER.debug("Registering packets...");
         CinderTallyPacketHandler.registerPackets();
