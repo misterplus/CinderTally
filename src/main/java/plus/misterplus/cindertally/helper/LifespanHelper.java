@@ -3,19 +3,19 @@ package plus.misterplus.cindertally.helper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import plus.misterplus.cindertally.common.item.ItemLifeSpan;
+import plus.misterplus.cindertally.common.item.ItemLifespan;
 import plus.misterplus.cindertally.registry.CinderTallyRegistry;
 
 public class LifespanHelper {
     public static Inventory getCinderTallyInventory(long lifespan) {
-        int decades = (int) (lifespan / ItemLifeSpan.VALUE_DECADE);
-        int years = (int) (lifespan % ItemLifeSpan.VALUE_DECADE / ItemLifeSpan.VALUE_YEAR);
-        int seasons = (int) (lifespan % ItemLifeSpan.VALUE_YEAR / ItemLifeSpan.VALUE_SEASON);
-        int months = (int) (lifespan % ItemLifeSpan.VALUE_SEASON / ItemLifeSpan.VALUE_MONTH);
-        int weeks = (int) (lifespan % ItemLifeSpan.VALUE_MONTH / ItemLifeSpan.VALUE_WEEK);
-        int days = (int) (lifespan % ItemLifeSpan.VALUE_WEEK / ItemLifeSpan.VALUE_DAY);
-        int hours = (int) (lifespan % ItemLifeSpan.VALUE_DAY / ItemLifeSpan.VALUE_HOUR);
-        int quarters = (int) (lifespan % ItemLifeSpan.VALUE_HOUR / ItemLifeSpan.VALUE_QUARTER);
+        int decades = (int) (lifespan / ItemLifespan.VALUE_DECADE);
+        int years = (int) (lifespan % ItemLifespan.VALUE_DECADE / ItemLifespan.VALUE_YEAR);
+        int seasons = (int) (lifespan % ItemLifespan.VALUE_YEAR / ItemLifespan.VALUE_SEASON);
+        int months = (int) (lifespan % ItemLifespan.VALUE_SEASON / ItemLifespan.VALUE_MONTH);
+        int weeks = (int) (lifespan % ItemLifespan.VALUE_MONTH / ItemLifespan.VALUE_WEEK);
+        int days = (int) (lifespan % ItemLifespan.VALUE_WEEK / ItemLifespan.VALUE_DAY);
+        int hours = (int) (lifespan % ItemLifespan.VALUE_DAY / ItemLifespan.VALUE_HOUR);
+        int quarters = (int) (lifespan % ItemLifespan.VALUE_HOUR / ItemLifespan.VALUE_QUARTER);
         Inventory inventory = new Inventory(8);
         inventory.setItem(0, new ItemStack(CinderTallyRegistry.LIFESPAN_DECADE, decades));
         inventory.setItem(1, new ItemStack(CinderTallyRegistry.LIFESPAN_YEAR, years));

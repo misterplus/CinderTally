@@ -4,7 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import plus.misterplus.cindertally.CinderTally;
 import plus.misterplus.cindertally.CinderTallyConstants;
-import plus.misterplus.cindertally.common.item.ItemLifeSpan;
+import plus.misterplus.cindertally.common.item.ItemLifespan;
 
 public class NBTHelper {
 
@@ -21,7 +21,7 @@ public class NBTHelper {
         // lifespan in in-game years, 70-100
         int lifespan = player.getCommandSenderWorld().random.nextInt(30) + 70;
         // nbt stored in ticks
-        getPersistedData(player, true).putLong(CinderTallyConstants.LIFESPAN_NBT_TAG, lifespan * ItemLifeSpan.VALUE_YEAR);
+        getPersistedData(player, true).putLong(CinderTallyConstants.LIFESPAN_NBT_TAG, lifespan * ItemLifespan.VALUE_YEAR);
         CinderTally.LOGGER.debug(String.format("Init lifespan for player %s: %d years.", player.getName().getContents(), lifespan));
     }
 

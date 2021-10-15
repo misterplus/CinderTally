@@ -15,20 +15,20 @@ import plus.misterplus.cindertally.common.effect.EffectStasis;
 import plus.misterplus.cindertally.common.inventory.container.CinderTallyContainer;
 import plus.misterplus.cindertally.common.item.ItemCinderTally;
 import plus.misterplus.cindertally.common.item.ItemDebugStick;
-import plus.misterplus.cindertally.common.item.ItemLifeSpan;
+import plus.misterplus.cindertally.common.item.ItemLifespan;
 import plus.misterplus.cindertally.helper.LifespanHelper;
 
 public class CinderTallyRegistry {
 
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CinderTallyConstants.MOD_ID);
-    public static final Item LIFESPAN_QUARTER = register(ITEMS, "lifespan_quarter", new ItemLifeSpan(ItemLifeSpan.properties().stacksTo(4).rarity(Rarity.COMMON), ItemLifeSpan.VALUE_QUARTER));
-    public static final Item LIFESPAN_HOUR = register(ITEMS, "lifespan_hour", new ItemLifeSpan(ItemLifeSpan.properties().stacksTo(24).rarity(Rarity.COMMON), ItemLifeSpan.VALUE_HOUR));
-    public static final Item LIFESPAN_DAY = register(ITEMS, "lifespan_day", new ItemLifeSpan(ItemLifeSpan.properties().stacksTo(7).rarity(Rarity.UNCOMMON), ItemLifeSpan.VALUE_DAY));
-    public static final Item LIFESPAN_WEEK = register(ITEMS, "lifespan_week", new ItemLifeSpan(ItemLifeSpan.properties().stacksTo(4).rarity(Rarity.UNCOMMON), ItemLifeSpan.VALUE_WEEK));
-    public static final Item LIFESPAN_MONTH = register(ITEMS, "lifespan_month", new ItemLifeSpan(ItemLifeSpan.properties().stacksTo(3).rarity(Rarity.RARE), ItemLifeSpan.VALUE_MONTH));
-    public static final Item LIFESPAN_SEASON = register(ITEMS, "lifespan_season", new ItemLifeSpan(ItemLifeSpan.properties().stacksTo(4).rarity(Rarity.RARE), ItemLifeSpan.VALUE_SEASON));
-    public static final Item LIFESPAN_YEAR = register(ITEMS, "lifespan_year", new ItemLifeSpan(ItemLifeSpan.properties().stacksTo(10).rarity(Rarity.EPIC), ItemLifeSpan.VALUE_YEAR));
-    public static final Item LIFESPAN_DECADE = register(ITEMS, "lifespan_decade", new ItemLifeSpan(ItemLifeSpan.properties().stacksTo(50).rarity(Rarity.EPIC), ItemLifeSpan.VALUE_DECADE));
+    public static final Item LIFESPAN_QUARTER = register(ITEMS, "lifespan_quarter", new ItemLifespan(ItemLifespan.properties().stacksTo(4).rarity(Rarity.COMMON), ItemLifespan.VALUE_QUARTER));
+    public static final Item LIFESPAN_HOUR = register(ITEMS, "lifespan_hour", new ItemLifespan(ItemLifespan.properties().stacksTo(24).rarity(Rarity.COMMON), ItemLifespan.VALUE_HOUR));
+    public static final Item LIFESPAN_DAY = register(ITEMS, "lifespan_day", new ItemLifespan(ItemLifespan.properties().stacksTo(7).rarity(Rarity.UNCOMMON), ItemLifespan.VALUE_DAY));
+    public static final Item LIFESPAN_WEEK = register(ITEMS, "lifespan_week", new ItemLifespan(ItemLifespan.properties().stacksTo(4).rarity(Rarity.UNCOMMON), ItemLifespan.VALUE_WEEK));
+    public static final Item LIFESPAN_MONTH = register(ITEMS, "lifespan_month", new ItemLifespan(ItemLifespan.properties().stacksTo(3).rarity(Rarity.RARE), ItemLifespan.VALUE_MONTH));
+    public static final Item LIFESPAN_SEASON = register(ITEMS, "lifespan_season", new ItemLifespan(ItemLifespan.properties().stacksTo(4).rarity(Rarity.RARE), ItemLifespan.VALUE_SEASON));
+    public static final Item LIFESPAN_YEAR = register(ITEMS, "lifespan_year", new ItemLifespan(ItemLifespan.properties().stacksTo(10).rarity(Rarity.EPIC), ItemLifespan.VALUE_YEAR));
+    public static final Item LIFESPAN_DECADE = register(ITEMS, "lifespan_decade", new ItemLifespan(ItemLifespan.properties().stacksTo(50).rarity(Rarity.EPIC), ItemLifespan.VALUE_DECADE));
     public static final Item CINDER_TALLY = register(ITEMS, "cinder_tally", new ItemCinderTally(new Item.Properties().tab(ItemGroup.TAB_MISC).stacksTo(1).rarity(Rarity.EPIC)));
     public static final Item DEBUG_STICK = register(ITEMS, "debug_stick", new ItemDebugStick(new Item.Properties().tab(ItemGroup.TAB_MISC).stacksTo(1).rarity(Rarity.EPIC)));
     private static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, CinderTallyConstants.MOD_ID);

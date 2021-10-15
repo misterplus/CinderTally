@@ -7,7 +7,7 @@ import net.minecraft.item.ItemGroup;
  * Items that represents players lifespan,
  * it may come in various forms: a flash of light, sand, hourglasses, clocks, watches, etc.
  */
-public class ItemLifeSpan extends Item {
+public class ItemLifespan extends Item {
 
     public static final long VALUE_DAY = 20 * 60 * 20;
     public static final long VALUE_HOUR = VALUE_DAY / 24;
@@ -27,7 +27,7 @@ public class ItemLifeSpan extends Item {
      * Lifespan value in ticks
      */
     private final long value;
-    public ItemLifeSpan(Properties properties, long value) {
+    public ItemLifespan(Properties properties, long value) {
         super(properties);
         this.value = value;
     }

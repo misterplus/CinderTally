@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
  * The tally that records life of all living creatures.<br>
  * Function: players can retrieve life out of themselves in forms of lifespan items.
  *
- * @see plus.misterplus.cindertally.common.item.ItemLifeSpan
+ * @see ItemLifespan
  */
 public class ItemCinderTally extends Item {
 
