@@ -9,19 +9,25 @@ import net.minecraft.item.ItemGroup;
  */
 public class ItemLifeSpan extends Item {
 
-    public static final int VALUE_QUARTER = 20 * 60 * 20 / 24 / 4;
-    public static final int VALUE_HOUR = 20 * 60 * 20 / 24;
-    public static final int VALUE_DAY = 20 * 60 * 20;
-    public static final int VALUE_WEEK = 7 * 20 * 60 * 20;
-    public static final int VALUE_MONTH = 28 * 20 * 60 * 20;
-    public static final int VALUE_SEASON = 84 * 20 * 60 * 20;
-    public static final int VALUE_YEAR = 336 * 20 * 60 * 20;
-    public static final int VALUE_DECADE = 3360 * 20 * 60 * 20;
+    public static final long VALUE_DAY = 20 * 60 * 20;
+    public static final long VALUE_HOUR = VALUE_DAY / 24;
+    public static final long VALUE_QUARTER = VALUE_HOUR / 4;
+    public static final long VALUE_WEEK = VALUE_DAY * 7;
+    public static final long VALUE_MONTH = VALUE_WEEK * 4;
+    public static final long VALUE_SEASON = VALUE_MONTH * 3;
+    public static final long VALUE_YEAR = VALUE_SEASON * 4;
+    public static final long VALUE_DECADE = VALUE_YEAR * 10;
+
+    // unused
+    public static final long VALUE_CENTURY = VALUE_DECADE * 10;
+    public static final long VALUE_MILLENNIUM = VALUE_CENTURY * 10;
+    public static final long VALUE_EON = VALUE_MILLENNIUM * 1000000;
+
     /**
      * Lifespan value in ticks
      */
-    private final int value;
-    public ItemLifeSpan(Properties properties, int value) {
+    private final long value;
+    public ItemLifeSpan(Properties properties, long value) {
         super(properties);
         this.value = value;
     }
@@ -30,7 +36,7 @@ public class ItemLifeSpan extends Item {
         return new Item.Properties().tab(ItemGroup.TAB_MISC);
     }
 
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 }
