@@ -21,29 +21,29 @@ public class NBTHelper {
         // lifespan in in-game years, 70-100
         int lifespan = player.getCommandSenderWorld().random.nextInt(30) + 70;
         // nbt stored in ticks
-        getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, lifespan * ItemLifeSpan.VALUE_YEAR);
+        getPersistedData(player, true).putLong(CinderTallyConstants.LIFESPAN_NBT_TAG, lifespan * ItemLifeSpan.VALUE_YEAR);
         CinderTally.LOGGER.debug(String.format("Init lifespan for player %s: %d years.", player.getName().getContents(), lifespan));
     }
 
     public static boolean diminishLifespan(PlayerEntity player) {
         if (!player.isAlive() || EffectHelper.isInStasis(player) || player.isSpectator())
             return false;
-        int remain = getLifespan(player) - 1;
+        long remain = getLifespan(player) - 1;
         if (remain > 0) {
-            getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, remain);
+            getPersistedData(player, true).putLong(CinderTallyConstants.LIFESPAN_NBT_TAG, remain);
             return false;
         } else {
-            getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, remain);
+            getPersistedData(player, true).putLong(CinderTallyConstants.LIFESPAN_NBT_TAG, remain);
             return true;
         }
     }
 
     public static void setLifespan(PlayerEntity player, int lifespan) {
-        getPersistedData(player, true).putInt(CinderTallyConstants.LIFESPAN_NBT_TAG, lifespan);
+        getPersistedData(player, true).putLong(CinderTallyConstants.LIFESPAN_NBT_TAG, lifespan);
     }
 
-    public static int getLifespan(PlayerEntity player) {
-        return getPersistedData(player, false).getInt(CinderTallyConstants.LIFESPAN_NBT_TAG);
+    public static long getLifespan(PlayerEntity player) {
+        return getPersistedData(player, false).getLong(CinderTallyConstants.LIFESPAN_NBT_TAG);
     }
 
     public static boolean isFirstLogin(PlayerEntity player) {

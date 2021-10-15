@@ -48,7 +48,7 @@ public class ItemCinderTally extends Item {
                     public Container createMenu(int containerId, PlayerInventory playerInventory, PlayerEntity player) {
                         return new CinderTallyContainer(containerId, playerInventory, LifespanHelper.getCinderTallyInventory(player));
                     }
-                }, packetBuffer -> packetBuffer.writeInt(NBTHelper.getLifespan(player)));
+                }, packetBuffer -> packetBuffer.writeLong(NBTHelper.getLifespan(player)));
                 return ActionResult.success(item);
             } else {
                 // not in stasis, send msg to player

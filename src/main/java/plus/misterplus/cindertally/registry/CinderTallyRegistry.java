@@ -34,7 +34,7 @@ public class CinderTallyRegistry {
     private static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, CinderTallyConstants.MOD_ID);
     public static final Effect STASIS = register(EFFECTS, "stasis", new EffectStasis());
     private static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, CinderTallyConstants.MOD_ID);
-    public static final ContainerType<CinderTallyContainer> CONTAINER_CINDER_TALLY = register(CONTAINERS, "cinder_tally", IForgeContainerType.create((windowId, playerInv, extraData) -> new CinderTallyContainer(windowId, playerInv, LifespanHelper.getCinderTallyInventory(extraData.readInt()))));
+    public static final ContainerType<CinderTallyContainer> CONTAINER_CINDER_TALLY = register(CONTAINERS, "cinder_tally", IForgeContainerType.create((windowId, playerInv, extraData) -> new CinderTallyContainer(windowId, playerInv, LifespanHelper.getCinderTallyInventory(extraData.readLong()))));
 
     private static <T extends IForgeRegistryEntry<T>, E extends T> E register(DeferredRegister<T> register, String name, E entry) {
         register.register(name, () -> entry);
