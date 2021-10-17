@@ -2,6 +2,7 @@ package plus.misterplus.cindertally.common.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import plus.misterplus.cindertally.registry.CinderTallyRegistry;
 
 /**
  * Items that represents players lifespan,
@@ -34,7 +35,7 @@ public class ItemLifespan extends Item {
     }
 
     public static Item.Properties properties() {
-        return new Item.Properties().tab(ItemGroup.TAB_MISC);
+        return new Item.Properties().tab(CinderTallyRegistry.TAB_CINDERTALLY);
     }
 
     public long getValue() {

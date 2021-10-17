@@ -1,10 +1,14 @@
 package plus.misterplus.cindertally.registry;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.potion.Effect;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,6 +25,13 @@ import plus.misterplus.cindertally.helper.LifespanHelper;
 
 public class CinderTallyRegistry {
 
+    public static final ItemGroup TAB_CINDERTALLY = new ItemGroup(-1, "cindertally") {
+        @OnlyIn(Dist.CLIENT)
+        public ItemStack makeIcon() {
+            return new ItemStack(Blocks.DIAMOND_BLOCK);
+        }
+    };
+
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CinderTallyConstants.MOD_ID);
     public static final Item LIFESPAN_QUARTER = register(ITEMS, "lifespan_quarter", new ItemLifespan(ItemLifespan.properties().stacksTo(4).rarity(Rarity.COMMON), ItemLifespan.VALUE_QUARTER));
     public static final Item LIFESPAN_HOUR = register(ITEMS, "lifespan_hour", new ItemLifespan(ItemLifespan.properties().stacksTo(24).rarity(Rarity.COMMON), ItemLifespan.VALUE_HOUR));
@@ -30,13 +41,15 @@ public class CinderTallyRegistry {
     public static final Item LIFESPAN_SEASON = register(ITEMS, "lifespan_season", new ItemLifespan(ItemLifespan.properties().stacksTo(4).rarity(Rarity.RARE), ItemLifespan.VALUE_SEASON));
     public static final Item LIFESPAN_YEAR = register(ITEMS, "lifespan_year", new ItemLifespan(ItemLifespan.properties().stacksTo(10).rarity(Rarity.EPIC), ItemLifespan.VALUE_YEAR));
     public static final Item LIFESPAN_DECADE = register(ITEMS, "lifespan_decade", new ItemLifespan(ItemLifespan.properties().stacksTo(50).rarity(Rarity.EPIC), ItemLifespan.VALUE_DECADE));
-    public static final Item CINDER_TALLY = register(ITEMS, "cinder_tally", new ItemCinderTally(new Item.Properties().tab(ItemGroup.TAB_MISC).stacksTo(1).rarity(Rarity.EPIC)));
-    public static final Item DEBUG_STICK = register(ITEMS, "debug_stick", new ItemDebugStick(new Item.Properties().tab(ItemGroup.TAB_MISC).stacksTo(1).rarity(Rarity.EPIC)));
+    public static final Item CINDER_TALLY = register(ITEMS, "cinder_tally", new ItemCinderTally(new Item.Properties().tab(TAB_CINDERTALLY).stacksTo(1).rarity(Rarity.EPIC)));
+    public static final Item DEBUG_STICK = register(ITEMS, "debug_stick", new ItemDebugStick(new Item.Properties().tab(TAB_CINDERTALLY).stacksTo(1).rarity(Rarity.EPIC)));
     private static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, CinderTallyConstants.MOD_ID);
     public static final Effect STASIS = register(EFFECTS, "stasis", new EffectStasis());
     public static final Effect TIME_DILATION = register(EFFECTS, "time_dilation", new EffectTimeDilation());
     private static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, CinderTallyConstants.MOD_ID);
     public static final ContainerType<CinderTallyContainer> CONTAINER_CINDER_TALLY = register(CONTAINERS, "cinder_tally", IForgeContainerType.create((windowId, playerInv, extraData) -> new CinderTallyContainer(windowId, playerInv, LifespanHelper.getCinderTallyInventory(extraData.readLong()))));
+
+
 
     private static <T extends IForgeRegistryEntry<T>, E extends T> E register(DeferredRegister<T> register, String name, E entry) {
         register.register(name, () -> entry);

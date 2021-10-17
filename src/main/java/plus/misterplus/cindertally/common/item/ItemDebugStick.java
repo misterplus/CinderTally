@@ -15,6 +15,11 @@ public class ItemDebugStick extends Item {
     }
 
     @Override
+    public boolean isFoil(ItemStack p_77636_1_) {
+        return true;
+    }
+
+    @Override
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         LifespanHelper.setLifespan(player, 200);
         return ActionResult.success(player.getItemInHand(hand));
