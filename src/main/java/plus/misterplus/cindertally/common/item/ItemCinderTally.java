@@ -22,6 +22,7 @@ import javax.annotation.Nullable;
 /**
  * The tally that records life of all living creatures.<br>
  * Players can check their own remaining lifespan with this item while in stasis.
+ *
  * @see ItemLifespan
  */
 public class ItemCinderTally extends Item {

@@ -27,6 +27,7 @@ public class ItemLifespan extends Item {
      * Lifespan value in ticks
      */
     private final long value;
+
     public ItemLifespan(Properties properties, long value) {
         super(properties);
         this.value = value;

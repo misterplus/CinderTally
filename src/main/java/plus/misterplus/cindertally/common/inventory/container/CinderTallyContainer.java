@@ -17,7 +17,7 @@ public class CinderTallyContainer extends Container {
 
         for (int j = 0; j < containerRows; ++j) {
             for (int k = 0; k < 8; ++k) {
-                this.addSlot(new Slot(container, k + j * 9, 8 + k * 18, 18 + j * 18){
+                this.addSlot(new Slot(container, k + j * 9, 8 + k * 18, 18 + j * 18) {
                     @Override
                     public boolean mayPickup(PlayerEntity p_82869_1_) {
                         return false;

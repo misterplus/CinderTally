@@ -11,13 +11,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class CinderTallyRenderType extends RenderType {
 
+    private static final ResourceLocation STASIS_GLINT_LOCATION = new ResourceLocation("cindertally:textures/misc/stasis_glint.png");
+    private static final RenderType STASIS = RenderType.create("stasis", DefaultVertexFormats.POSITION_TEX, 7, 256, RenderType.State.builder().setTextureState(new RenderState.TextureState(STASIS_GLINT_LOCATION, true, false)).setWriteMaskState(COLOR_WRITE).setCullState(NO_CULL).setDepthTestState(EQUAL_DEPTH_TEST).setTransparencyState(GLINT_TRANSPARENCY).setTexturingState(ENTITY_GLINT_TEXTURING).createCompositeState(false));
+
     public CinderTallyRenderType(String p_i225992_1_, VertexFormat p_i225992_2_, int p_i225992_3_, int p_i225992_4_, boolean p_i225992_5_, boolean p_i225992_6_, Runnable p_i225992_7_, Runnable p_i225992_8_) {
         super(p_i225992_1_, p_i225992_2_, p_i225992_3_, p_i225992_4_, p_i225992_5_, p_i225992_6_, p_i225992_7_, p_i225992_8_);
     }
-
-    private static final ResourceLocation STASIS_GLINT_LOCATION = new ResourceLocation("cindertally:textures/misc/stasis_glint.png");
-
-    private static final RenderType STASIS = RenderType.create("stasis", DefaultVertexFormats.POSITION_TEX, 7, 256, RenderType.State.builder().setTextureState(new RenderState.TextureState(STASIS_GLINT_LOCATION, true, false)).setWriteMaskState(COLOR_WRITE).setCullState(NO_CULL).setDepthTestState(EQUAL_DEPTH_TEST).setTransparencyState(GLINT_TRANSPARENCY).setTexturingState(ENTITY_GLINT_TEXTURING).createCompositeState(false));
 
     public static RenderType stasis() {
         return STASIS;

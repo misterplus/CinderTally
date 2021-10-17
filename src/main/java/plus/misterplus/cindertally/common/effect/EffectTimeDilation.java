@@ -13,6 +13,7 @@ import plus.misterplus.cindertally.registry.CinderTallyRegistry;
  * An effect that slows players' time.<br>
  * For each level of this effect, the affected player's time goes 20% slower.<br>
  * When a player reaches Time Dilation V, that player enters stasis.
+ *
  * @see plus.misterplus.cindertally.common.effect.EffectStasis
  */
 public class EffectTimeDilation extends Effect {
