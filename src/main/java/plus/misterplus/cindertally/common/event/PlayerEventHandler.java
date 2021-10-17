@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.PacketDistributor;
 import plus.misterplus.cindertally.CinderTally;
 import plus.misterplus.cindertally.CinderTallyConstants;
+import plus.misterplus.cindertally.helper.LifespanHelper;
 import plus.misterplus.cindertally.helper.NBTHelper;
 import plus.misterplus.cindertally.network.CinderTallyPacketHandler;
 import plus.misterplus.cindertally.network.packet.ReckoningPacket;
@@ -27,7 +28,7 @@ public class PlayerEventHandler {
         boolean isFirstLogin = NBTHelper.isFirstLogin(player);
         CinderTally.LOGGER.debug(String.format("%s is first time login: %b", event.getPlayer().getName().getContents(), isFirstLogin));
         if (isFirstLogin)
-            NBTHelper.initLifespan(player);
+            LifespanHelper.initLifespan(player);
     }
 
     @SubscribeEvent
@@ -36,9 +37,9 @@ public class PlayerEventHandler {
         World world = player.getCommandSenderWorld();
         if (world.isClientSide())
             return;
-        if (NBTHelper.getLifespan(player) == 0)
+        if (LifespanHelper.getLifespan(player) == 0)
             return;
-        boolean outOfLife = NBTHelper.diminishLifespan(player);
+        boolean outOfLife = LifespanHelper.diminishLifespan(player);
         if (outOfLife && player.isAlive()) {
             if (player.getServer().isSingleplayer()) {
                 // if on singleplayer: set player to gm3 then shows a death screen

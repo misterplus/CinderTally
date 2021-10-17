@@ -16,14 +16,12 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import plus.misterplus.cindertally.common.inventory.container.CinderTallyContainer;
 import plus.misterplus.cindertally.helper.EffectHelper;
 import plus.misterplus.cindertally.helper.LifespanHelper;
-import plus.misterplus.cindertally.helper.NBTHelper;
 
 import javax.annotation.Nullable;
 
 /**
  * The tally that records life of all living creatures.<br>
- * Function: players can retrieve life out of themselves in forms of lifespan items.
- *
+ * Players can check their own remaining lifespan with this item while in stasis.
  * @see ItemLifespan
  */
 public class ItemCinderTally extends Item {
@@ -36,7 +34,7 @@ public class ItemCinderTally extends Item {
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack item = player.getItemInHand(hand);
         if (!world.isClientSide()) {
-            if (EffectHelper.isInStasis(player)) {
+            if (EffectHelper.isEffectivelyInStasis(player)) {
                 NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider() {
                     @Override
                     public ITextComponent getDisplayName() {
@@ -48,16 +46,13 @@ public class ItemCinderTally extends Item {
                     public Container createMenu(int containerId, PlayerInventory playerInventory, PlayerEntity player) {
                         return new CinderTallyContainer(containerId, playerInventory, LifespanHelper.getCinderTallyInventory(player));
                     }
-                }, packetBuffer -> packetBuffer.writeLong(NBTHelper.getLifespan(player)));
+                }, packetBuffer -> packetBuffer.writeLong(LifespanHelper.getLifespan(player)));
                 return ActionResult.success(item);
             } else {
                 // not in stasis, send msg to player
                 return ActionResult.fail(item);
             }
         }
-//        if (!world.isClientSide) {
-//            player.sendMessage(new StringTextComponent(String.valueOf(NBTHelper.getLifespan(player))), Util.NIL_UUID);
-//        }
         return ActionResult.pass(item);
     }
 }

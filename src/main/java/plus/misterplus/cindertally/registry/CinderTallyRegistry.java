@@ -12,6 +12,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import plus.misterplus.cindertally.CinderTallyConstants;
 import plus.misterplus.cindertally.common.effect.EffectStasis;
+import plus.misterplus.cindertally.common.effect.EffectTimeDilation;
 import plus.misterplus.cindertally.common.inventory.container.CinderTallyContainer;
 import plus.misterplus.cindertally.common.item.ItemCinderTally;
 import plus.misterplus.cindertally.common.item.ItemDebugStick;
@@ -33,6 +34,7 @@ public class CinderTallyRegistry {
     public static final Item DEBUG_STICK = register(ITEMS, "debug_stick", new ItemDebugStick(new Item.Properties().tab(ItemGroup.TAB_MISC).stacksTo(1).rarity(Rarity.EPIC)));
     private static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, CinderTallyConstants.MOD_ID);
     public static final Effect STASIS = register(EFFECTS, "stasis", new EffectStasis());
+    public static final Effect TIME_DILATION = register(EFFECTS, "time_dilation", new EffectTimeDilation());
     private static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, CinderTallyConstants.MOD_ID);
     public static final ContainerType<CinderTallyContainer> CONTAINER_CINDER_TALLY = register(CONTAINERS, "cinder_tally", IForgeContainerType.create((windowId, playerInv, extraData) -> new CinderTallyContainer(windowId, playerInv, LifespanHelper.getCinderTallyInventory(extraData.readLong()))));
 

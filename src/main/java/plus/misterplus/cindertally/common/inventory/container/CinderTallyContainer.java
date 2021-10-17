@@ -40,7 +40,7 @@ public class CinderTallyContainer extends Container {
 
     @Override
     public boolean stillValid(PlayerEntity player) {
-        return EffectHelper.isInStasis(player);
+        return EffectHelper.isEffectivelyInStasis(player);
     }
 
 

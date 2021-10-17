@@ -23,7 +23,7 @@ public class CinderTally {
         // Register the doClientStuff method for modloading
 //        modEventBus.addListener(this::doClientStuff);
 
-        CinderTally.LOGGER.debug("Registering...");
+        CinderTally.LOGGER.debug("Registering entries...");
         CinderTallyRegistry.register(modEventBus);
         CinderTally.LOGGER.debug("Entries registered!");
 
