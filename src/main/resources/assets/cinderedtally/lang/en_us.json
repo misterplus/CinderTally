@@ -1,0 +1,20 @@
+{
+  "item.cinderedtally.lifespan_quarter": "Sands of Time",
+  "item.cinderedtally.lifespan_hour": "Antique / Bottomless Hourglass",
+  "item.cinderedtally.lifespan_day": "Pendulum Clock",
+  "item.cinderedtally.lifespan_week": "Vintage Stopwatch",
+  "item.cinderedtally.lifespan_month": "Tear-Off Calendar",
+  "item.cinderedtally.lifespan_season": "Phasing Leaf",
+  "item.cinderedtally.lifespan_year": "Dying Star",
+  "item.cinderedtally.lifespan_decade": "Infinity Sundial",
+  "item.cinderedtally.cindered_tally": "Cindered Tally",
+  "item.cinderedtally.debug_stick": "Debug Stick",
+  "item.cinderedtally.cindered_page": "Cindered Page",
+  "msg.cinderedtally.kick": "You're spent every last heartbeat of your life, now it's time to say goodbye to this world.",
+  "msg.cinderedtally.banned": "You're out of time, now move on, to your next life.",
+  "deathScreen.title.out_of_time": "A Reckoning.",
+  "death.cinderedtally.out_of_time": "You're out of time.",
+  "effect.cinderedtally.stasis": "Stasis",
+  "effect.cinderedtally.time_dilation": "Time Dilation",
+  "itemGroup.cinderedtally": "Cindered Tally"
+}
