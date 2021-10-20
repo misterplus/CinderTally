@@ -46,7 +46,7 @@ public class CinderedTallyRegistry {
     public static final Item LIFESPAN_DECADE = register(ITEMS, "lifespan_decade", new ItemLifespan(ItemLifespan.properties().stacksTo(50).rarity(Rarity.EPIC), ItemLifespan.VALUE_DECADE));
     public static final Item CINDERED_TALLY = register(ITEMS, "cindered_tally", new ItemCinderedTally(new Item.Properties().tab(TAB_CINDEREDTALLY).stacksTo(1).rarity(Rarity.EPIC)));
     public static final Item DEBUG_STICK = register(ITEMS, "debug_stick", new ItemDebugStick(new Item.Properties().tab(TAB_CINDEREDTALLY).stacksTo(1).rarity(Rarity.EPIC)));
-    public static final Item CINDERED_PAGE = register(ITEMS, "cindered_page", new ItemCinderedPage(new Item.Properties().tab(TAB_CINDEREDTALLY)));
+    public static final Item CINDERED_PAGE = register(ITEMS, "cindered_page", new ItemCinderedPage(new Item.Properties().tab(TAB_CINDEREDTALLY).stacksTo(10).rarity(Rarity.UNCOMMON)));
     public static final Item CINDER = register(ITEMS, "cinder", new Item(new Item.Properties().tab(TAB_CINDEREDTALLY)));
     private static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, CinderedTallyConstants.MOD_ID);
     public static final Effect STASIS = register(EFFECTS, "stasis", new EffectStasis());

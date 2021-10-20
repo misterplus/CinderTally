@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "patchouli:guide_book",
+      "nbt": "{\"patchouli:book\": \"tales_of_the_madrugad\"}"
+    },
+    "title": {
+      "translate": "advancements.cinderedtally.root.title"
+    },
+    "description": {
+      "translate": "advancements.cinderedtally.root.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png"
+  },
+  "criteria": {
+    "madrugad": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "patchouli:guide_book",
+            "nbt": "{\"patchouli:book\": \"tales_of_the_madrugad\"}"
+          }
+        ]
+      }
+    }
+  }
+}

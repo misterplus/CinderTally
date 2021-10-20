@@ -6,6 +6,8 @@ import plus.misterplus.cinderedtally.CinderedTallyConstants;
 
 public class NBTHelper {
 
+    private static final String NBT_KEY_NEW = CinderedTallyConstants.MOD_ID + "_new";
+
     public static CompoundNBT getPersistedData(PlayerEntity player, boolean createIfMissing) {
         CompoundNBT nbt = player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG);
         if (createIfMissing) {
@@ -15,8 +17,8 @@ public class NBTHelper {
     }
 
     public static boolean isFirstLogin(PlayerEntity player) {
-        if (!getPersistedData(player, false).getBoolean(CinderedTallyConstants.NEW_NBT_TAG)) {
-            getPersistedData(player, true).putBoolean(CinderedTallyConstants.NEW_NBT_TAG, true);
+        if (!getPersistedData(player, false).getBoolean(NBT_KEY_NEW)) {
+            getPersistedData(player, true).putBoolean(NBT_KEY_NEW, true);
             return true;
         }
         return false;
