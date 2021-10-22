@@ -58,11 +58,22 @@ public class ItemCinderedTally extends Item {
         return true;
     }
 
-    private static double getPages(ItemStack stack) {
+    public static int repair(ItemStack stack, int pages) {
+        int repairableCount = getRepairableCount(stack);
+        int toRepair = Math.min(pages, repairableCount);
+        stack.getTag().putInt(NBT_KEY_PAGE, stack.getTag().getInt(NBT_KEY_PAGE) + toRepair);
+        return toRepair;
+    }
+
+    private static int getRepairableCount(ItemStack stack) {
+        return (int) (ItemCinderedTally.getMaxPages(stack) - ItemCinderedTally.getPages(stack));
+    }
+
+    public static double getPages(ItemStack stack) {
         return stack.getTag().getInt(NBT_KEY_PAGE);
     }
 
-    private static double getMaxPages(ItemStack stack) {
+    public static double getMaxPages(ItemStack stack) {
         return MAX_PAGE_DEFAULT + MAX_PAGE_INCREMENT * stack.getTag().getInt(NBT_KEY_UPGRADE);
     }
 
