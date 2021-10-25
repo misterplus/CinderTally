@@ -58,11 +58,11 @@ public class ItemCinderedTally extends Item {
         return true;
     }
 
-    public static int repair(ItemStack stack, int pages) {
+    public static ItemStack repair(ItemStack stack, int pages) {
         int repairableCount = getRepairableCount(stack);
         int toRepair = Math.min(pages, repairableCount);
         stack.getTag().putInt(NBT_KEY_PAGE, stack.getTag().getInt(NBT_KEY_PAGE) + toRepair);
-        return toRepair;
+        return stack;
     }
 
     private static int getRepairableCount(ItemStack stack) {

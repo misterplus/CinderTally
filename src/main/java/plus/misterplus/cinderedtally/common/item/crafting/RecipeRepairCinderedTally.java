@@ -1,12 +1,14 @@
 package plus.misterplus.cinderedtally.common.item.crafting;
 
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import plus.misterplus.cinderedtally.common.item.ItemCinderedPage;
 import plus.misterplus.cinderedtally.common.item.ItemCinderedTally;
+import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,35 +20,51 @@ public class RecipeRepairCinderedTally extends SpecialRecipe {
 
     @Override
     public boolean matches(CraftingInventory inventory, World world) {
-        int tally = 0, pages = 0;
+        //TODO: fix over repairing
+        ItemStack itemstack = ItemStack.EMPTY;
+        int pages = 0;
+
         for(int i = 0; i < inventory.getContainerSize(); ++i) {
-            ItemStack stack = inventory.getItem(i);
-            if (!stack.isEmpty()) {
-                if (stack.getItem() instanceof ItemCinderedTally)
-                    tally++;
-                else if (stack.getItem() instanceof ItemCinderedPage)
+            ItemStack itemstack1 = inventory.getItem(i);
+            if (!itemstack1.isEmpty()) {
+                if (itemstack1.getItem() instanceof ItemCinderedTally) {
+                    if (!itemstack.isEmpty()) {
+                        return false;
+                    }
+                    itemstack = itemstack1;
+                } else {
+                    if (!(itemstack1.getItem() instanceof ItemCinderedPage)) {
+                        return false;
+                    }
                     pages++;
-                else
-                    return false;
+                }
             }
         }
-        return tally == 1 && pages > 0;
+        return !itemstack.isEmpty() && pages > 0;
     }
 
     @Override
     public ItemStack assemble(CraftingInventory inventory) {
-        int tallyIndex = findTallyIndex(inventory);
-        List<Integer> pageIndex = findPageIndex(inventory);
-        if (tallyIndex == -1 && pageIndex.isEmpty())
-            return null;
-        ItemStack tally = inventory.getItem(tallyIndex);
-        int toRepair = ItemCinderedTally.repair(tally, pageIndex.size());
-        for (int i = 0; i < toRepair; i++) {
-            inventory.getItem(pageIndex.get(i)).setCount(inventory.getItem(pageIndex.get(i)).getCount() - 1);
+        ItemStack itemstack = ItemStack.EMPTY;
+        int pages = 0;
+        for(int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack itemstack1 = inventory.getItem(i);
+            Item item = itemstack1.getItem();
+            if(!itemstack1.isEmpty()) {
+                if (item instanceof ItemCinderedTally) {
+                    if (!itemstack.isEmpty()) {
+                        return ItemStack.EMPTY;
+                    }
+                    itemstack = itemstack1.copy();
+                } else {
+                    if (!(item instanceof ItemCinderedPage)) {
+                        return ItemStack.EMPTY;
+                    }
+                    pages++;
+                }
+            }
         }
-        ItemStack result = tally.copy();
-        tally.setCount(0);
-        return result;
+        return !itemstack.isEmpty() && pages > 0 ? ItemCinderedTally.repair(itemstack, pages) : ItemStack.EMPTY;
     }
 
     private List<Integer> findPageIndex(CraftingInventory inventory) {
@@ -74,6 +92,6 @@ public class RecipeRepairCinderedTally extends SpecialRecipe {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return IRecipeSerializer.register("cinderedtally_crafting_special_repair_cindered_tally", new SpecialRecipeSerializer<>(RecipeRepairCinderedTally::new));
+        return CinderedTallyRegistry.REPAIR_CINDERED_TALLY;
     }
 }

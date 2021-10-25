@@ -3,10 +3,13 @@ package plus.misterplus.cinderedtally.registry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.CookingRecipeBuilder;
+import net.minecraft.data.CustomRecipeBuilder;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
+import net.minecraft.item.crafting.FireworkRocketRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.potion.Effect;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,6 +27,7 @@ import plus.misterplus.cinderedtally.common.item.ItemCinderedPage;
 import plus.misterplus.cinderedtally.common.item.ItemCinderedTally;
 import plus.misterplus.cinderedtally.common.item.ItemDebugStick;
 import plus.misterplus.cinderedtally.common.item.ItemLifespan;
+import plus.misterplus.cinderedtally.common.item.crafting.RecipeRepairCinderedTally;
 import plus.misterplus.cinderedtally.helper.LifespanHelper;
 
 public class CinderedTallyRegistry {
@@ -55,6 +59,8 @@ public class CinderedTallyRegistry {
     public static final ContainerType<CinderedTallyContainer> CONTAINER_CINDER_TALLY = register(CONTAINERS, "cinder_tally", IForgeContainerType.create((windowId, playerInv, extraData) -> new CinderedTallyContainer(windowId, playerInv, LifespanHelper.getCinderedTallyInventory(extraData.readLong()))));
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, CinderedTallyConstants.MOD_ID);
     public static final Block RESEARCH_TABLE = register(BLOCKS, "research_table", new BlockResearchTable());
+    private static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, CinderedTallyConstants.MOD_ID);
+    public static final SpecialRecipeSerializer<RecipeRepairCinderedTally> REPAIR_CINDERED_TALLY = register(RECIPES, "repair_cindered_tally", new SpecialRecipeSerializer<>(RecipeRepairCinderedTally::new));
 
     private static <T extends IForgeRegistryEntry<T>, E extends T> E register(DeferredRegister<T> register, String name, E entry) {
         register.register(name, () -> entry);
@@ -66,6 +72,6 @@ public class CinderedTallyRegistry {
         EFFECTS.register(bus);
         CONTAINERS.register(bus);
         BLOCKS.register(bus);
-        CookingRecipeBuilder.cooking(Ingredient.of(Items.PAPER), Items.BOOK, 0.35F, 600, IRecipeSerializer.CAMPFIRE_COOKING_RECIPE);
+        RECIPES.register(bus);
     }
 }
