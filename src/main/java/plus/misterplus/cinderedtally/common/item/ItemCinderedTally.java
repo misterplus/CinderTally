@@ -65,6 +65,10 @@ public class ItemCinderedTally extends Item {
         return stack;
     }
 
+    public static boolean isValidRepair(ItemStack stack, int pages) {
+        return pages > 0 && pages <= getRepairableCount(stack);
+    }
+
     private static int getRepairableCount(ItemStack stack) {
         return (int) (ItemCinderedTally.getMaxPages(stack) - ItemCinderedTally.getPages(stack));
     }

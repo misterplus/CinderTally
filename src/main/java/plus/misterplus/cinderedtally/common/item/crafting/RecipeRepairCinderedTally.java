@@ -10,9 +10,6 @@ import plus.misterplus.cinderedtally.common.item.ItemCinderedPage;
 import plus.misterplus.cinderedtally.common.item.ItemCinderedTally;
 import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class RecipeRepairCinderedTally extends SpecialRecipe {
     public RecipeRepairCinderedTally(ResourceLocation p_i48169_1_) {
         super(p_i48169_1_);
@@ -20,7 +17,7 @@ public class RecipeRepairCinderedTally extends SpecialRecipe {
 
     @Override
     public boolean matches(CraftingInventory inventory, World world) {
-        //TODO: fix over repairing
+        //TODO: fix over repairing, to be tested
         ItemStack itemstack = ItemStack.EMPTY;
         int pages = 0;
 
@@ -40,7 +37,7 @@ public class RecipeRepairCinderedTally extends SpecialRecipe {
                 }
             }
         }
-        return !itemstack.isEmpty() && pages > 0;
+        return !itemstack.isEmpty() && ItemCinderedTally.isValidRepair(itemstack, pages);
     }
 
     @Override
@@ -64,25 +61,7 @@ public class RecipeRepairCinderedTally extends SpecialRecipe {
                 }
             }
         }
-        return !itemstack.isEmpty() && pages > 0 ? ItemCinderedTally.repair(itemstack, pages) : ItemStack.EMPTY;
-    }
-
-    private List<Integer> findPageIndex(CraftingInventory inventory) {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < inventory.getContainerSize(); i++) {
-            if (!inventory.getItem(i).isEmpty() && inventory.getItem(i).getItem() instanceof ItemCinderedPage) {
-                list.add(i);
-            }
-        }
-        return list;
-    }
-
-    private int findTallyIndex(CraftingInventory inventory) {
-        for (int i = 0; i < inventory.getContainerSize(); i++) {
-            if (!inventory.getItem(i).isEmpty() && inventory.getItem(i).getItem() instanceof ItemCinderedTally)
-                return i;
-        }
-        return -1;
+        return !itemstack.isEmpty() && ItemCinderedTally.isValidRepair(itemstack, pages) ? ItemCinderedTally.repair(itemstack, pages) : ItemStack.EMPTY;
     }
 
     @Override
