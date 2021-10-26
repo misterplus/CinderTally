@@ -3,7 +3,7 @@ package plus.misterplus.cinderedtally.network;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
-import plus.misterplus.cinderedtally.CinderedTallyConstants;
+import plus.misterplus.cinderedtally.CinderedTally;
 import plus.misterplus.cinderedtally.network.packet.LocalePacket;
 import plus.misterplus.cinderedtally.network.packet.ReckoningPacket;
 import plus.misterplus.cinderedtally.network.packet.SReckoningPacket;
@@ -11,7 +11,7 @@ import plus.misterplus.cinderedtally.network.packet.SReckoningPacket;
 public class CinderedTallyPacketHandler {
     private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(CinderedTallyConstants.MOD_ID, "main"),
+            new ResourceLocation(CinderedTally.MOD_ID, "main"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals

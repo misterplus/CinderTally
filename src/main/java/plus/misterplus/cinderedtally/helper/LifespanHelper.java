@@ -4,14 +4,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import plus.misterplus.cinderedtally.CinderedTally;
-import plus.misterplus.cinderedtally.CinderedTallyConstants;
 import plus.misterplus.cinderedtally.common.item.ItemLifespan;
 import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
 public class LifespanHelper {
 
-    private static final String NBT_KEY_LIFESPAN = CinderedTallyConstants.MOD_ID + "_lifespan";
-    
+    private static final String NBT_KEY_LIFESPAN = CinderedTally.MOD_ID + "_lifespan";
+
     public static Inventory getCinderedTallyInventory(long lifespan) {
         int decades = (int) (lifespan / ItemLifespan.VALUE_DECADE);
         int years = (int) (lifespan % ItemLifespan.VALUE_DECADE / ItemLifespan.VALUE_YEAR);

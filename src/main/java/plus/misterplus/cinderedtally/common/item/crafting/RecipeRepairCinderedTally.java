@@ -3,7 +3,8 @@ package plus.misterplus.cinderedtally.common.item.crafting;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.*;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.SpecialRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import plus.misterplus.cinderedtally.common.item.ItemCinderedPage;
@@ -17,11 +18,10 @@ public class RecipeRepairCinderedTally extends SpecialRecipe {
 
     @Override
     public boolean matches(CraftingInventory inventory, World world) {
-        //TODO: fix over repairing, to be tested
         ItemStack itemstack = ItemStack.EMPTY;
         int pages = 0;
 
-        for(int i = 0; i < inventory.getContainerSize(); ++i) {
+        for (int i = 0; i < inventory.getContainerSize(); ++i) {
             ItemStack itemstack1 = inventory.getItem(i);
             if (!itemstack1.isEmpty()) {
                 if (itemstack1.getItem() instanceof ItemCinderedTally) {
@@ -44,10 +44,10 @@ public class RecipeRepairCinderedTally extends SpecialRecipe {
     public ItemStack assemble(CraftingInventory inventory) {
         ItemStack itemstack = ItemStack.EMPTY;
         int pages = 0;
-        for(int i = 0; i < inventory.getContainerSize(); i++) {
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
             ItemStack itemstack1 = inventory.getItem(i);
             Item item = itemstack1.getItem();
-            if(!itemstack1.isEmpty()) {
+            if (!itemstack1.isEmpty()) {
                 if (item instanceof ItemCinderedTally) {
                     if (!itemstack.isEmpty()) {
                         return ItemStack.EMPTY;

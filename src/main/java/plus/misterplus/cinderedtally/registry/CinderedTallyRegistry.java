@@ -1,16 +1,16 @@
 package plus.misterplus.cinderedtally.registry;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.CookingRecipeBuilder;
-import net.minecraft.data.CustomRecipeBuilder;
+import net.minecraft.block.OreBlock;
+import net.minecraft.block.material.Material;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
-import net.minecraft.item.crafting.FireworkRocketRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.potion.Effect;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeContainerType;
@@ -18,7 +18,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-import plus.misterplus.cinderedtally.CinderedTallyConstants;
+import plus.misterplus.cinderedtally.CinderedTally;
 import plus.misterplus.cinderedtally.common.block.BlockResearchTable;
 import plus.misterplus.cinderedtally.common.effect.EffectStasis;
 import plus.misterplus.cinderedtally.common.effect.EffectTimeDilation;
@@ -32,14 +32,20 @@ import plus.misterplus.cinderedtally.helper.LifespanHelper;
 
 public class CinderedTallyRegistry {
 
-    public static final ItemGroup TAB_CINDEREDTALLY = new ItemGroup(-1, CinderedTallyConstants.MOD_ID) {
+    public static final ItemGroup TAB_CINDEREDTALLY = new ItemGroup(-1, CinderedTally.MOD_ID) {
         @OnlyIn(Dist.CLIENT)
         public ItemStack makeIcon() {
             return new ItemStack(Blocks.DIAMOND_BLOCK);
         }
     };
 
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CinderedTallyConstants.MOD_ID);
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CinderedTally.MOD_ID);
+    private static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, CinderedTally.MOD_ID);
+    private static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, CinderedTally.MOD_ID);
+    private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, CinderedTally.MOD_ID);
+    private static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, CinderedTally.MOD_ID);
+    private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, CinderedTally.MOD_ID);
+
     public static final Item LIFESPAN_QUARTER = register(ITEMS, "lifespan_quarter", new ItemLifespan(ItemLifespan.properties().stacksTo(4).rarity(Rarity.COMMON), ItemLifespan.VALUE_QUARTER));
     public static final Item LIFESPAN_HOUR = register(ITEMS, "lifespan_hour", new ItemLifespan(ItemLifespan.properties().stacksTo(24).rarity(Rarity.COMMON), ItemLifespan.VALUE_HOUR));
     public static final Item LIFESPAN_DAY = register(ITEMS, "lifespan_day", new ItemLifespan(ItemLifespan.properties().stacksTo(7).rarity(Rarity.UNCOMMON), ItemLifespan.VALUE_DAY));
@@ -52,18 +58,18 @@ public class CinderedTallyRegistry {
     public static final Item DEBUG_STICK = register(ITEMS, "debug_stick", new ItemDebugStick(new Item.Properties().tab(TAB_CINDEREDTALLY).stacksTo(1).rarity(Rarity.EPIC)));
     public static final Item CINDERED_PAGE = register(ITEMS, "cindered_page", new ItemCinderedPage(new Item.Properties().tab(TAB_CINDEREDTALLY).stacksTo(10).rarity(Rarity.UNCOMMON)));
     public static final Item CINDER = register(ITEMS, "cinder", new Item(new Item.Properties().tab(TAB_CINDEREDTALLY)));
-    private static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, CinderedTallyConstants.MOD_ID);
     public static final Effect STASIS = register(EFFECTS, "stasis", new EffectStasis());
     public static final Effect TIME_DILATION = register(EFFECTS, "time_dilation", new EffectTimeDilation());
-    private static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, CinderedTallyConstants.MOD_ID);
     public static final ContainerType<CinderedTallyContainer> CONTAINER_CINDER_TALLY = register(CONTAINERS, "cinder_tally", IForgeContainerType.create((windowId, playerInv, extraData) -> new CinderedTallyContainer(windowId, playerInv, LifespanHelper.getCinderedTallyInventory(extraData.readLong()))));
-    private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, CinderedTallyConstants.MOD_ID);
     public static final Block RESEARCH_TABLE = register(BLOCKS, "research_table", new BlockResearchTable());
-    private static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, CinderedTallyConstants.MOD_ID);
+    public static final Block ORE_SULFUR = register(BLOCKS, "ore_sulfur", new OreBlock(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
     public static final SpecialRecipeSerializer<RecipeRepairCinderedTally> REPAIR_CINDERED_TALLY = register(RECIPES, "repair_cindered_tally", new SpecialRecipeSerializer<>(RecipeRepairCinderedTally::new));
+
 
     private static <T extends IForgeRegistryEntry<T>, E extends T> E register(DeferredRegister<T> register, String name, E entry) {
         register.register(name, () -> entry);
+        if (register == BLOCKS)
+            register(ITEMS, name, new BlockItem((Block) entry, new Item.Properties().tab(TAB_CINDEREDTALLY)));
         return entry;
     }
 

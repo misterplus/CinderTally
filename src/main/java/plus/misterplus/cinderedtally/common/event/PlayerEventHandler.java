@@ -10,14 +10,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.PacketDistributor;
 import plus.misterplus.cinderedtally.CinderedTally;
-import plus.misterplus.cinderedtally.CinderedTallyConstants;
 import plus.misterplus.cinderedtally.helper.LifespanHelper;
 import plus.misterplus.cinderedtally.helper.NBTHelper;
 import plus.misterplus.cinderedtally.network.CinderedTallyPacketHandler;
 import plus.misterplus.cinderedtally.network.packet.ReckoningPacket;
 import plus.misterplus.cinderedtally.network.packet.SReckoningPacket;
 
-@Mod.EventBusSubscriber(modid = CinderedTallyConstants.MOD_ID)
+@Mod.EventBusSubscriber(modid = CinderedTally.MOD_ID)
 public class PlayerEventHandler {
 
     @SubscribeEvent

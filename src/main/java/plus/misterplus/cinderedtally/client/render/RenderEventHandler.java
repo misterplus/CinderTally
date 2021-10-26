@@ -12,13 +12,13 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import plus.misterplus.cinderedtally.CinderedTally;
-import plus.misterplus.cinderedtally.CinderedTallyConstants;
 import plus.misterplus.cinderedtally.client.render.layer.StasisLayer;
 import plus.misterplus.cinderedtally.helper.EffectHelper;
 
-@Mod.EventBusSubscriber(modid = CinderedTallyConstants.MOD_ID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = CinderedTally.MOD_ID, value = Dist.CLIENT)
 public class RenderEventHandler {
 
+    private static final ResourceLocation STASIS_OVERLAY = new ResourceLocation(CinderedTally.MOD_ID, "textures/misc/stasis_overlay.png");
     private static boolean LAYER_INIT = false;
 
     @SubscribeEvent
@@ -35,8 +35,6 @@ public class RenderEventHandler {
             //renderStasis(Minecraft.getInstance()); disable this for now, as I don't have the overlay texture yet
         }
     }
-
-    private static final ResourceLocation STASIS_OVERLAY = new ResourceLocation(CinderedTallyConstants.MOD_ID, "textures/misc/stasis_overlay.png");
 
     private static void renderStasis(Minecraft mc) {
         int screenWidth = mc.getWindow().getGuiScaledWidth();

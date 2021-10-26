@@ -16,7 +16,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import plus.misterplus.cinderedtally.CinderedTallyConstants;
+import plus.misterplus.cinderedtally.CinderedTally;
 import plus.misterplus.cinderedtally.common.inventory.container.CinderedTallyContainer;
 import plus.misterplus.cinderedtally.helper.EffectHelper;
 import plus.misterplus.cinderedtally.helper.LifespanHelper;
@@ -33,29 +33,11 @@ public class ItemCinderedTally extends Item {
 
     private static final int MAX_PAGE_DEFAULT = 10;
     private static final int MAX_PAGE_INCREMENT = 10;
-    private static final String NBT_KEY_UPGRADE = CinderedTallyConstants.MOD_ID + "_cindered_tally_upgrade";
-    private static final String NBT_KEY_PAGE = CinderedTallyConstants.MOD_ID + "_cindered_tally_page";
+    private static final String NBT_KEY_UPGRADE = CinderedTally.MOD_ID + "_cindered_tally_upgrade";
+    private static final String NBT_KEY_PAGE = CinderedTally.MOD_ID + "_cindered_tally_page";
 
     public ItemCinderedTally(Properties properties) {
         super(properties);
-    }
-
-    // adds an empty Cindered Tally to the creative inventory
-    @Override
-    public void fillItemCategory(ItemGroup itemGroup, NonNullList<ItemStack> itemsAdded) {
-        if (this.allowdedIn(itemGroup)) {
-            CompoundNBT nbt = new CompoundNBT();
-            nbt.putInt(NBT_KEY_UPGRADE, 0);
-            nbt.putInt(NBT_KEY_PAGE, 0);
-            ItemStack itemStack = new ItemStack(this);
-            itemStack.setTag(nbt);
-            itemsAdded.add(itemStack);
-        }
-    }
-
-    @Override
-    public boolean showDurabilityBar(ItemStack stack) {
-        return true;
     }
 
     public static ItemStack repair(ItemStack stack, int pages) {
@@ -79,6 +61,24 @@ public class ItemCinderedTally extends Item {
 
     public static double getMaxPages(ItemStack stack) {
         return MAX_PAGE_DEFAULT + MAX_PAGE_INCREMENT * stack.getTag().getInt(NBT_KEY_UPGRADE);
+    }
+
+    // adds an empty Cindered Tally to the creative inventory
+    @Override
+    public void fillItemCategory(ItemGroup itemGroup, NonNullList<ItemStack> itemsAdded) {
+        if (this.allowdedIn(itemGroup)) {
+            CompoundNBT nbt = new CompoundNBT();
+            nbt.putInt(NBT_KEY_UPGRADE, 0);
+            nbt.putInt(NBT_KEY_PAGE, 0);
+            ItemStack itemStack = new ItemStack(this);
+            itemStack.setTag(nbt);
+            itemsAdded.add(itemStack);
+        }
+    }
+
+    @Override
+    public boolean showDurabilityBar(ItemStack stack) {
+        return true;
     }
 
     @Override

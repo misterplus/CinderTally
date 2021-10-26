@@ -8,9 +8,10 @@ import org.apache.logging.log4j.Logger;
 import plus.misterplus.cinderedtally.network.CinderedTallyPacketHandler;
 import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
-@Mod(CinderedTallyConstants.MOD_ID)
+@Mod(CinderedTally.MOD_ID)
 public class CinderedTally {
     public static final Logger LOGGER = LogManager.getLogger();
+    public static final String MOD_ID = "cinderedtally";
 
     public CinderedTally() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
