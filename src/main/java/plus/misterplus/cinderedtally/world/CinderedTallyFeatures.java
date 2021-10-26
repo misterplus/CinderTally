@@ -25,11 +25,11 @@ public class CinderedTallyFeatures {
     // count (generation tries in a single chunk)
 
     // uses vanilla iron values for sulfur ores for now
-    public static final ConfiguredFeature<?, ?> ORE_SULFUR = register("ore_sulfur", Feature.ORE.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, CinderedTallyRegistry.ORE_SULFUR.defaultBlockState(), 9)).range(64).squared().count(20));
+    public static final ConfiguredFeature<?, ?> SULFUR_ORE = register("sulfur_ore", Feature.ORE.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, CinderedTallyRegistry.SULFUR_ORE.defaultBlockState(), 9)).range(64).squared().count(20));
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoading(BiomeLoadingEvent event) {
         BiomeGenerationSettingsBuilder builder = event.getGeneration();
-        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ORE_SULFUR);
+        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, SULFUR_ORE);
     }
 }

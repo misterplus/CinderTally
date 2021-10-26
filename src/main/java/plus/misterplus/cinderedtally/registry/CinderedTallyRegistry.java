@@ -58,13 +58,17 @@ public class CinderedTallyRegistry {
     public static final Item DEBUG_STICK = register(ITEMS, "debug_stick", new ItemDebugStick(new Item.Properties().tab(TAB_CINDEREDTALLY).stacksTo(1).rarity(Rarity.EPIC)));
     public static final Item CINDERED_PAGE = register(ITEMS, "cindered_page", new ItemCinderedPage(new Item.Properties().tab(TAB_CINDEREDTALLY).stacksTo(10).rarity(Rarity.UNCOMMON)));
     public static final Item CINDER = register(ITEMS, "cinder", new Item(new Item.Properties().tab(TAB_CINDEREDTALLY)));
+    public static final Item SULFUR_CRYSTAL = register(ITEMS, "sulfur_crystal", new Item(new Item.Properties().tab(TAB_CINDEREDTALLY)));
+    public static final Item SULFUR_DUST = register(ITEMS, "sulfur_dust", new Item(new Item.Properties().tab(TAB_CINDEREDTALLY)));
+
     public static final Effect STASIS = register(EFFECTS, "stasis", new EffectStasis());
     public static final Effect TIME_DILATION = register(EFFECTS, "time_dilation", new EffectTimeDilation());
     public static final ContainerType<CinderedTallyContainer> CONTAINER_CINDER_TALLY = register(CONTAINERS, "cinder_tally", IForgeContainerType.create((windowId, playerInv, extraData) -> new CinderedTallyContainer(windowId, playerInv, LifespanHelper.getCinderedTallyInventory(extraData.readLong()))));
-    public static final Block RESEARCH_TABLE = register(BLOCKS, "research_table", new BlockResearchTable());
-    public static final Block ORE_SULFUR = register(BLOCKS, "ore_sulfur", new OreBlock(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
-    public static final SpecialRecipeSerializer<RecipeRepairCinderedTally> REPAIR_CINDERED_TALLY = register(RECIPES, "repair_cindered_tally", new SpecialRecipeSerializer<>(RecipeRepairCinderedTally::new));
 
+    public static final Block RESEARCH_TABLE = register(BLOCKS, "research_table", new BlockResearchTable());
+    public static final Block SULFUR_ORE = register(BLOCKS, "sulfur_ore", new OreBlock(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
+
+    public static final SpecialRecipeSerializer<RecipeRepairCinderedTally> REPAIR_CINDERED_TALLY = register(RECIPES, "repair_cindered_tally", new SpecialRecipeSerializer<>(RecipeRepairCinderedTally::new));
 
     private static <T extends IForgeRegistryEntry<T>, E extends T> E register(DeferredRegister<T> register, String name, E entry) {
         register.register(name, () -> entry);

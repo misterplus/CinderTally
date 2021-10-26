@@ -11,6 +11,8 @@
   "item.cinderedtally.debug_stick": "Debug Stick",
   "item.cinderedtally.cindered_page": "Cindered Page",
   "item.cinderedtally.cinder": "Cinder",
+  "item.cinderedtally.sulfur_crystal": "Sulfur Crystal",
+  "item.cinderedtally.sulfur_dust": "Sulfur Dust",
   "msg.cinderedtally.kick": "You're spent every last heartbeat of your life, now it's time to say goodbye to this world.",
   "msg.cinderedtally.banned": "You're out of time, now move on, to your next life.",
   "deathScreen.title.out_of_time": "A Reckoning.",
@@ -19,5 +21,5 @@
   "effect.cinderedtally.time_dilation": "Time Dilation",
   "itemGroup.cinderedtally": "Cindered Tally",
   "block.cinderedtally.research_table": "Research Table",
-  "block.cinderedtally.ore_sulfur": "Sulfur Ore"
+  "block.cinderedtally.sulfur_ore": "Sulfur Ore"
 }
