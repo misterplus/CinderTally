@@ -73,6 +73,12 @@ public class ItemCinderedTally extends Item {
             ItemStack itemStack = new ItemStack(this);
             itemStack.setTag(nbt);
             itemsAdded.add(itemStack);
+            CompoundNBT nbt2 = new CompoundNBT();
+            nbt2.putInt(NBT_KEY_UPGRADE, 0);
+            nbt2.putInt(NBT_KEY_PAGE, MAX_PAGE_DEFAULT);
+            ItemStack itemStack2 = new ItemStack(this);
+            itemStack2.setTag(nbt);
+            itemsAdded.add(itemStack2);
         }
     }
 
