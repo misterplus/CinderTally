@@ -46,10 +46,6 @@ public class CinderedTallyRegistry {
     private static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, CinderedTally.MOD_ID);
     private static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, CinderedTally.MOD_ID);
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, CinderedTally.MOD_ID);
-    private static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, CinderedTally.MOD_ID);
-    private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, CinderedTally.MOD_ID);
-    private static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, CinderedTally.MOD_ID);
-
     public static final Item LIFESPAN_QUARTER = register(ITEMS, "lifespan_quarter", new ItemLifespan(ItemLifespan.properties().stacksTo(4).rarity(Rarity.COMMON), ItemLifespan.VALUE_QUARTER));
     public static final Item LIFESPAN_HOUR = register(ITEMS, "lifespan_hour", new ItemLifespan(ItemLifespan.properties().stacksTo(24).rarity(Rarity.COMMON), ItemLifespan.VALUE_HOUR));
     public static final Item LIFESPAN_DAY = register(ITEMS, "lifespan_day", new ItemLifespan(ItemLifespan.properties().stacksTo(7).rarity(Rarity.UNCOMMON), ItemLifespan.VALUE_DAY));
@@ -64,17 +60,16 @@ public class CinderedTallyRegistry {
     public static final Item CINDER = register(ITEMS, "cinder", new Item(new Item.Properties().tab(TAB_CINDEREDTALLY)));
     public static final Item SULFUR_CRYSTAL = register(ITEMS, "sulfur_crystal", new Item(new Item.Properties().tab(TAB_CINDEREDTALLY)));
     public static final Item SULFUR_DUST = register(ITEMS, "sulfur_dust", new Item(new Item.Properties().tab(TAB_CINDEREDTALLY)));
-
     public static final Effect STASIS = register(EFFECTS, "stasis", new EffectStasis());
     public static final Effect TIME_DILATION = register(EFFECTS, "time_dilation", new EffectTimeDilation());
     public static final ContainerType<CinderedTallyContainer> CONTAINER_CINDER_TALLY = register(CONTAINERS, "cinder_tally", IForgeContainerType.create((windowId, playerInv, extraData) -> new CinderedTallyContainer(windowId, playerInv, LifespanHelper.getCinderedTallyInventory(extraData.readLong()))));
-
     public static final Block RESEARCH_TABLE = register(BLOCKS, "research_table", new BlockResearchTable());
     public static final Block SULFUR_ORE = register(BLOCKS, "sulfur_ore", new OreBlock(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
     public static final Block CRUCIBLE = register(BLOCKS, "crucible", new BlockCrucible());
-
+    private static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, CinderedTally.MOD_ID);
     public static final SpecialRecipeSerializer<RecipeRepairCinderedTally> REPAIR_CINDERED_TALLY = register(RECIPES, "repair_cindered_tally", new SpecialRecipeSerializer<>(RecipeRepairCinderedTally::new));
-
+    private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, CinderedTally.MOD_ID);
+    private static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, CinderedTally.MOD_ID);
     public static final TileEntityType<TileEntityCrucible> TILE_CRUCIBLE = register(TILE_ENTITIES, "crucible", TileEntityType.Builder.of(TileEntityCrucible::new, CRUCIBLE).build(null));
 
     private static <T extends IForgeRegistryEntry<T>, E extends T> E register(DeferredRegister<T> register, String name, E entry) {

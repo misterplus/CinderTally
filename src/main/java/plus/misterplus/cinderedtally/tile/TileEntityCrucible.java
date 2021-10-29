@@ -1,8 +1,8 @@
 package plus.misterplus.cinderedtally.tile;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -21,21 +21,15 @@ import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileEntityCrucible extends TileEntity {
-
-    public ItemStackHandler getItemHandler() {
-        return itemHandler;
-    }
-
-    public FluidTank getFluidTank() {
-        return fluidTank;
-    }
 
     /**
      * For recipe inputs.
      */
-    private final ItemStackHandler itemHandler = new ItemStackHandler(4){
+    private final ItemStackHandler itemHandler = new ItemStackHandler(4) {
         @Override
         public int getSlotLimit(int slot) {
             return 1;
@@ -50,16 +44,26 @@ public class TileEntityCrucible extends TileEntity {
     /**
      * For holding the recipe base.
      */
-    private final FluidTank fluidTank = new FluidTank(1000, fluidStack -> fluidStack.getFluid() == Fluids.WATER){
+    private final FluidTank fluidTank = new FluidTank(1000, fluidStack -> fluidStack.getFluid() == Fluids.WATER) {
         @Override
         protected void onContentsChanged() {
             super.onContentsChanged();
             setChanged();
         }
     };
+    private final LazyOptional<IItemHandler> itemCap = LazyOptional.of(() -> itemHandler);
+    private final LazyOptional<IFluidHandler> fluidCap = LazyOptional.of(() -> fluidTank);
 
     public TileEntityCrucible() {
         super(CinderedTallyRegistry.TILE_CRUCIBLE);
+    }
+
+    public ItemStackHandler getItemHandler() {
+        return itemHandler;
+    }
+
+    public FluidTank getFluidTank() {
+        return fluidTank;
     }
 
     @Override
@@ -99,16 +103,16 @@ public class TileEntityCrucible extends TileEntity {
         deserializeNBT(pkt.getTag());
     }
 
-    private final LazyOptional<IItemHandler> itemCap = LazyOptional.of(() -> itemHandler);
-    private final LazyOptional<IFluidHandler> fluidCap = LazyOptional.of(() -> fluidTank);
-
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return itemCap.cast();
-        } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return fluidCap.cast();
+        // prevent block access, only players can interact
+        if (side == null) {
+            if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+                return itemCap.cast();
+            } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+                return fluidCap.cast();
+            }
         }
         return super.getCapability(cap, side);
     }
@@ -118,5 +122,16 @@ public class TileEntityCrucible extends TileEntity {
         super.invalidateCaps();
         itemCap.invalidate();
         fluidCap.invalidate();
+    }
+
+    public List<ItemStack> getContainedItems() {
+        List<ItemStack> itemList = new ArrayList<>();
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            if (itemHandler.getStackInSlot(i).isEmpty())
+                break;
+            else
+                itemList.add(itemHandler.getStackInSlot(i));
+        }
+        return itemList;
     }
 }
