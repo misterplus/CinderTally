@@ -7,13 +7,17 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import plus.misterplus.cinderedtally.CinderedTally;
 import plus.misterplus.cinderedtally.client.render.layer.StasisLayer;
+import plus.misterplus.cinderedtally.client.render.ter.CrucibleTER;
 import plus.misterplus.cinderedtally.helper.EffectHelper;
+import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
 @Mod.EventBusSubscriber(modid = CinderedTally.MOD_ID, value = Dist.CLIENT)
 public class RenderEventHandler {

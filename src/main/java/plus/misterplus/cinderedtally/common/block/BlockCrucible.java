@@ -15,7 +15,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.ItemStackHandler;
+import plus.misterplus.cinderedtally.helper.ItemStackHandlerHelper;
 import plus.misterplus.cinderedtally.tile.TileEntityCrucible;
 
 import javax.annotation.Nullable;
@@ -47,21 +50,26 @@ public class BlockCrucible extends Block {
 
     @Override
     public ActionResultType use(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult hit) {
-        if (!world.isClientSide() && hand == Hand.MAIN_HAND) {
+        if (hand == Hand.MAIN_HAND) {
             TileEntityCrucible te = (TileEntityCrucible) world.getBlockEntity(blockPos);
             ItemStack stackInHand = playerEntity.getItemInHand(hand);
+            ItemStackHandler itemStackHandler = te.getItemHandler();
             if (playerEntity.isShiftKeyDown()) {
                 if (stackInHand.isEmpty()) {
                     // remove item from crucible
+                    ItemStack extracted = ItemStackHandlerHelper.extractAllFromLastFilledSlot(itemStackHandler, false);
+                    ItemHandlerHelper.giveItemToPlayer(playerEntity, extracted);
                 }
             } else {
-                // add item to crucible
-                // rework this, this fills the entire inventory
-                ItemStack extra = ItemHandlerHelper.insertItem(te.getItemStackHandler(), stackInHand, false);
-                playerEntity.setItemInHand(hand, extra);
-                te.setChanged();
-                return ActionResultType.SUCCESS;
+                // try filling the fluid tank first
+                boolean fluidFilled = FluidUtil.interactWithFluidHandler(playerEntity, hand, te.getFluidTank());
+                if (!fluidFilled) {
+                    // if not a bucket action, add item to crucible
+                    ItemStack extra = ItemStackHandlerHelper.insertToFirstEmptySlot(itemStackHandler, stackInHand, false);
+                    playerEntity.setItemInHand(hand, extra);
+                }
             }
+            return ActionResultType.sidedSuccess(world.isClientSide());
         }
         return ActionResultType.PASS;
     }
