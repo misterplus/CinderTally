@@ -21,7 +21,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
-import plus.misterplus.cinderedtally.tile.TileEntityCrucible;
+import plus.misterplus.cinderedtally.common.tile.TileEntityCrucible;
 
 import java.util.List;
 import java.util.Random;

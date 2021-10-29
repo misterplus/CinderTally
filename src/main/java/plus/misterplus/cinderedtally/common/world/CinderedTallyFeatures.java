@@ -1,4 +1,4 @@
-package plus.misterplus.cinderedtally.world;
+package plus.misterplus.cinderedtally.common.world;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;

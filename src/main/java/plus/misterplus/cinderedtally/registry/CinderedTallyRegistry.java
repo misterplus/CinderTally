@@ -30,8 +30,8 @@ import plus.misterplus.cinderedtally.common.item.ItemCinderedTally;
 import plus.misterplus.cinderedtally.common.item.ItemDebugStick;
 import plus.misterplus.cinderedtally.common.item.ItemLifespan;
 import plus.misterplus.cinderedtally.common.item.crafting.RecipeRepairCinderedTally;
+import plus.misterplus.cinderedtally.common.tile.TileEntityCrucible;
 import plus.misterplus.cinderedtally.helper.LifespanHelper;
-import plus.misterplus.cinderedtally.tile.TileEntityCrucible;
 
 public class CinderedTallyRegistry {
 

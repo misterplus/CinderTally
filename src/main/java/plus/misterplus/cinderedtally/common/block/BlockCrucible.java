@@ -19,10 +19,11 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
+import plus.misterplus.cinderedtally.common.tile.TileEntityCrucible;
 import plus.misterplus.cinderedtally.helper.ItemStackHandlerHelper;
-import plus.misterplus.cinderedtally.tile.TileEntityCrucible;
 
 import javax.annotation.Nullable;
 
@@ -49,6 +50,26 @@ public class BlockCrucible extends Block {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TileEntityCrucible();
+    }
+
+    @Override
+    public void onRemove(BlockState blockState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+        // if it's removed / replaced
+        if (blockState.getBlock() != newState.getBlock()) {
+            TileEntityCrucible te = (TileEntityCrucible) world.getBlockEntity(blockPos);
+            te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(itemHandler -> {
+                ItemStack stack;
+                for (int i = 0; i < itemHandler.getSlots(); i++) {
+                    stack = itemHandler.getStackInSlot(i);
+                    if (stack.isEmpty())
+                        break;
+                    else
+                        popResource(world, blockPos, stack);
+                }
+            });
+            // fluid is ignored
+        }
+        super.onRemove(blockState, world, blockPos, newState, isMoving);
     }
 
     @Override

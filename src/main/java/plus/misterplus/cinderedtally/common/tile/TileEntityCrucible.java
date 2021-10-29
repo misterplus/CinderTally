@@ -1,4 +1,4 @@
-package plus.misterplus.cinderedtally.tile;
+package plus.misterplus.cinderedtally.common.tile;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluids;
@@ -12,10 +12,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
@@ -51,8 +49,8 @@ public class TileEntityCrucible extends TileEntity {
             setChanged();
         }
     };
-    private final LazyOptional<IItemHandler> itemCap = LazyOptional.of(() -> itemHandler);
-    private final LazyOptional<IFluidHandler> fluidCap = LazyOptional.of(() -> fluidTank);
+    private final LazyOptional<ItemStackHandler> itemCap = LazyOptional.of(() -> itemHandler);
+    private final LazyOptional<FluidTank> fluidCap = LazyOptional.of(() -> fluidTank);
 
     public TileEntityCrucible() {
         super(CinderedTallyRegistry.TILE_CRUCIBLE);
@@ -66,12 +64,14 @@ public class TileEntityCrucible extends TileEntity {
         return fluidTank;
     }
 
+//    private int heightAmount = 0;
+
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         super.save(nbt);
         // save here
-        nbt.put("ItemStackHandler", itemHandler.serializeNBT());
-        nbt.put("FluidTank", fluidTank.writeToNBT(new CompoundNBT()));
+        itemCap.ifPresent(i -> nbt.put("ItemStackHandler", i.serializeNBT()));
+        fluidCap.ifPresent(f -> nbt.put("FluidTank", f.writeToNBT(new CompoundNBT())));
         return nbt;
     }
 
@@ -79,8 +79,8 @@ public class TileEntityCrucible extends TileEntity {
     public void load(BlockState blockState, CompoundNBT nbt) {
         super.load(blockState, nbt);
         // load here
-        itemHandler.deserializeNBT(nbt.getCompound("ItemStackHandler"));
-        fluidTank.readFromNBT(nbt.getCompound("FluidTank"));
+        itemCap.ifPresent(i -> i.deserializeNBT(nbt.getCompound("ItemStackHandler")));
+        fluidCap.ifPresent(f -> f.readFromNBT(nbt.getCompound("FluidTank")));
     }
 
     public FluidStack getContainedFluidStack() {
@@ -106,13 +106,10 @@ public class TileEntityCrucible extends TileEntity {
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        // prevent block access, only players can interact
-        if (side == null) {
-            if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-                return itemCap.cast();
-            } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-                return fluidCap.cast();
-            }
+        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return itemCap.cast();
+        } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return fluidCap.cast();
         }
         return super.getCapability(cap, side);
     }
@@ -134,4 +131,24 @@ public class TileEntityCrucible extends TileEntity {
         }
         return itemList;
     }
+
+//    private int getFluidAmount() {
+//        return fluidTank.getFluidAmount();
+//    }
+//
+//    private void updateRenderHeight() {
+//        if (getLevel().isClientSide()) {
+//            int viscosity = Math.max(fluidTank.getFluid().getFluid().getAttributes().getViscosity() / 50, 10);
+//            if (heightAmount > getFluidAmount()) {
+//                heightAmount -= Math.max(1, (heightAmount - getFluidAmount()) / viscosity);
+//            } else if (heightAmount < getFluidAmount()) {
+//                heightAmount += Math.max(1, (getFluidAmount() - heightAmount) / viscosity);
+//            }
+//        }
+//    }
+//
+//    public float getFluidRenderHeight() {
+//        updateRenderHeight();
+//        return 0.1875F + 0.375F * this.heightAmount / 1000;
+//    }
 }
