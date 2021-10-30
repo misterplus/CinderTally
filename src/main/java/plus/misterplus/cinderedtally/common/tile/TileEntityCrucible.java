@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -16,15 +17,15 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import plus.misterplus.cinderedtally.CinderedTally;
 import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class TileEntityCrucible extends TileEntity {
+public class TileEntityCrucible extends TileEntity implements ITickableTileEntity, IRenderedRandomly {
 
     /**
      * For recipe inputs.
@@ -56,9 +57,15 @@ public class TileEntityCrucible extends TileEntity {
     };
     private final LazyOptional<FluidTank> fluidCap = LazyOptional.of(() -> fluidTank);
     private int heightAmount = 0;
+    private int scoopRotation = 0;
 
     public TileEntityCrucible() {
         super(CinderedTallyRegistry.TILE_CRUCIBLE);
+    }
+
+    public void clearCrucible() {
+        for (int i = 0; i < itemHandler.getSlots(); i++)
+            itemHandler.setStackInSlot(i, ItemStack.EMPTY);
     }
 
     public ItemStackHandler getItemHandler() {
@@ -159,5 +166,19 @@ public class TileEntityCrucible extends TileEntity {
 
     public Fluid getLastFluid() {
         return lastFluid;
+    }
+
+    public int getScoopRotation() {
+        return scoopRotation;
+    }
+
+    @Override
+    public void tick() {
+        scoopRotation = (scoopRotation + 3) % 360;
+    }
+
+    @Override
+    public Random getRandom() {
+        return new Random(getBlockPos().getX() * 36L + getBlockPos().getY() * 64L + getBlockPos().getZ() * 46L);
     }
 }

@@ -1,4 +1,4 @@
-package plus.misterplus.cinderedtally.client.render;
+package plus.misterplus.cinderedtally.client.event;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;

@@ -17,8 +17,10 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.client.model.data.EmptyModelData;
+import plus.misterplus.cinderedtally.CinderedTally;
 import plus.misterplus.cinderedtally.common.tile.TileEntityCrucible;
 
 import java.util.List;
@@ -61,12 +63,10 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
         }
 
         List<ItemStack> itemList = tile.getContainedItems();
+        Random rand = tile.getRandom();
         if (!itemList.isEmpty()) {
             ItemRenderer itemRenderer = mc.getItemRenderer();
             IBakedModel model;
-            BlockPos pos = tile.getBlockPos();
-            // get random seed from block pos
-            Random rand = new Random(pos.getX() * 36L + pos.getY() * 64L + pos.getZ() * 46L);
             float f1, f2, f3;
             mStack.pushPose();
             // move to the bottom of the crucible
@@ -106,5 +106,15 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
             }
             mStack.popPose();
         }
+
+        // render scoop animation
+        int scoopRotation = tile.getScoopRotation();
+        IBakedModel scoop = mc.getModelManager().getModel(new ResourceLocation(CinderedTally.MOD_ID, "block/crucible_scoop"));
+        mStack.pushPose();
+        IVertexBuilder builder = buffer.getBuffer(RenderType.cutout());
+        mStack.translate(0.5F, 0.1875F, 0.5F);
+        mStack.mulPose(Vector3f.YP.rotationDegrees(scoopRotation));
+        mc.getBlockRenderer().getModelRenderer().renderModel(tile.getLevel(), scoop, tile.getBlockState(), tile.getBlockPos(), mStack, builder, true, rand, 0L, combinedOverlay, EmptyModelData.INSTANCE);
+        mStack.popPose();
     }
 }

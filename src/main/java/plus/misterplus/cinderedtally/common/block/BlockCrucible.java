@@ -7,6 +7,7 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
@@ -22,11 +23,14 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
+import plus.misterplus.cinderedtally.common.item.crafting.CrucibleRecipe;
 import plus.misterplus.cinderedtally.common.tile.TileEntityCrucible;
 import plus.misterplus.cinderedtally.helper.ItemStackHandlerHelper;
+import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
 import javax.annotation.Nullable;
 
@@ -92,13 +96,25 @@ public class BlockCrucible extends Block {
             TileEntityCrucible te = (TileEntityCrucible) world.getBlockEntity(blockPos);
             ItemStack stackInHand = playerEntity.getItemInHand(hand);
             ItemStackHandler itemStackHandler = te.getItemHandler();
-            if (playerEntity.isShiftKeyDown()) {
-                if (stackInHand.isEmpty()) {
+            if (stackInHand.isEmpty()) {
+                if (playerEntity.isShiftKeyDown()) {
                     // remove item from crucible
                     ItemStack extracted = ItemStackHandlerHelper.extractAllFromLastFilledSlot(itemStackHandler, false);
                     ItemHandlerHelper.giveItemToPlayer(playerEntity, extracted);
+                } else {
+                    // craft the recipe
+                    Inventory ingredients = new Inventory(4);
+                    for (int i = 0; i < 4; i++)
+                        ingredients.addItem(itemStackHandler.getStackInSlot(i));
+                    // TODO: craft goo if no recipe is found?
+                    CrucibleRecipe recipe = world.getRecipeManager().getRecipeFor(CinderedTallyRegistry.RECIPE_CRUCIBLE, ingredients, world).orElse(null);
+                    if (recipe != null && te.getFluidTank().getFluid().containsFluid(recipe.getBase())) {
+                        te.clearCrucible();
+                        te.getFluidTank().drain(recipe.getBase(), IFluidHandler.FluidAction.EXECUTE);
+                        itemStackHandler.setStackInSlot(0, recipe.assemble(ingredients));
+                    }
                 }
-            } else {
+            } else if (!playerEntity.isShiftKeyDown()) {
                 // try filling the fluid tank first
                 boolean fluidFilled = FluidUtil.interactWithFluidHandler(playerEntity, hand, te.getFluidTank());
                 if (!fluidFilled) {

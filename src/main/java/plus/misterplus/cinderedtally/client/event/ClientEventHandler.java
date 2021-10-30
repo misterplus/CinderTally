@@ -1,8 +1,10 @@
-package plus.misterplus.cinderedtally.common.event;
+package plus.misterplus.cinderedtally.client.event;
 
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -22,5 +24,6 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onModelRegister(ModelRegistryEvent event) {
         ClientRegistry.bindTileEntityRenderer(CinderedTallyRegistry.TILE_CRUCIBLE, CrucibleTER::new);
+        ModelLoader.addSpecialModel(new ResourceLocation(CinderedTally.MOD_ID, "block/crucible_scoop"));
     }
 }

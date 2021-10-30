@@ -1,0 +1,22 @@
+{
+  "type": "cinderedtally:crucible",
+  "ingredients": {
+    "0": {
+      "item": "minecraft:paper"
+    },
+    "1": {
+      "item": "minecraft:leather"
+    },
+    "2": {
+      "item": "cinderedtally:sulfur_dust"
+    }
+  },
+  "base": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "result": {
+    "id":"cinderedtally:parchment",
+    "Count":1
+  }
+}
