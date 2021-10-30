@@ -6,13 +6,10 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import plus.misterplus.cinderedtally.common.inventory.container.CinderedTallyContainer;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-@OnlyIn(Dist.CLIENT)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class CinderedTallyScreen extends ContainerScreen<CinderedTallyContainer> {

@@ -7,12 +7,9 @@ import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import plus.misterplus.cinderedtally.client.render.CinderedTallyRenderType;
 import plus.misterplus.cinderedtally.helper.EffectHelper;
 
-@OnlyIn(Dist.CLIENT)
 public class StasisLayer extends LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> {
 
 

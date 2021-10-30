@@ -21,5 +21,6 @@
   "effect.cinderedtally.time_dilation": "Time Dilation",
   "itemGroup.cinderedtally": "Cindered Tally",
   "block.cinderedtally.research_table": "Research Table",
-  "block.cinderedtally.sulfur_ore": "Sulfur Ore"
+  "block.cinderedtally.sulfur_ore": "Sulfur Ore",
+  "block.cinderedtally.crucible": "Crucible"
 }

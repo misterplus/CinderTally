@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "cinderedtally:block/crucible"
+    },
+    "facing=south": {
+      "model": "cinderedtally:block/crucible",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "cinderedtally:block/crucible",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "cinderedtally:block/crucible",
+      "y": 90
     }
   }
 }

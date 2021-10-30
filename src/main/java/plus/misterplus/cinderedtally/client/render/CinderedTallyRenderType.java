@@ -5,11 +5,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import plus.misterplus.cinderedtally.CinderedTally;
 
-@OnlyIn(Dist.CLIENT)
 public class CinderedTallyRenderType extends RenderType {
 
     private static final ResourceLocation STASIS_GLINT_LOCATION = new ResourceLocation(CinderedTally.MOD_ID, "textures/misc/stasis_glint.png");

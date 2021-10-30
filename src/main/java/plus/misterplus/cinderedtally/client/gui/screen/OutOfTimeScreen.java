@@ -9,15 +9,12 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.ClickEvent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 
 /**
  * A death screen that shows when players ran out of time in singleplayer.
  */
-@OnlyIn(Dist.CLIENT)
 public class OutOfTimeScreen extends Screen {
 
     private final ITextComponent causeOfDeath;

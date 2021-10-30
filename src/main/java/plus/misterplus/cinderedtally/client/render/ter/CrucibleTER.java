@@ -13,20 +13,17 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidStack;
 import plus.misterplus.cinderedtally.common.tile.TileEntityCrucible;
 
 import java.util.List;
 import java.util.Random;
 
-@OnlyIn(Dist.CLIENT)
 public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
     public CrucibleTER(TileEntityRendererDispatcher tileEntityRendererDispatcher) {
         super(tileEntityRendererDispatcher);
@@ -36,9 +33,9 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
     public void render(TileEntityCrucible tile, float partialTicks, MatrixStack mStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         Minecraft mc = Minecraft.getInstance();
 
-        FluidStack fluidStack = tile.getContainedFluidStack();
-        Fluid fluid = fluidStack.getFluid();
-        if (!fluidStack.isEmpty()) {
+        Fluid fluid = tile.getLastFluid();
+        float height = tile.getAnimatedFluidHeight();
+        if (fluid != Fluids.EMPTY && height > 0.1875F) {
             IVertexBuilder builder = buffer.getBuffer(RenderType.translucentNoCrumbling());
             // get the fluid texture from the texture atlas, u = x coordinates, v = y coordinates
             // u0 < u1, v0 < v1
@@ -50,7 +47,6 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
             int b = color & 0xFF;
             int a = color >> 24 & 0xFF;
 
-            float height = 0.5625F;
             int light = WorldRenderer.getLightColor(tile.getLevel(), tile.getBlockPos());
 
             mStack.pushPose();

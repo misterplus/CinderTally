@@ -12,8 +12,6 @@ import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -36,7 +34,6 @@ import plus.misterplus.cinderedtally.helper.LifespanHelper;
 public class CinderedTallyRegistry {
 
     public static final ItemGroup TAB_CINDEREDTALLY = new ItemGroup(-1, CinderedTally.MOD_ID) {
-        @OnlyIn(Dist.CLIENT)
         public ItemStack makeIcon() {
             return new ItemStack(Blocks.DIAMOND_BLOCK);
         }
