@@ -17,6 +17,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -36,7 +40,12 @@ import java.util.Random;
 
 public class BlockCrucible extends Block {
 
+    // TODO: update bounding box
+    //       add entity fire interaction
+
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
+    private static final VoxelShape INSIDE = box(3.0D, 3.0D, 3.0D, 13.0D, 9.0D, 13.0D);
+    private static final VoxelShape SHAPE = VoxelShapes.join(box(1.0D, 0D, 1.0D, 15.0D, 10.0D, 15.0D), INSIDE, IBooleanFunction.ONLY_FIRST);
 
     public BlockCrucible() {
         super(AbstractBlock.Properties.of(Material.METAL, MaterialColor.STONE).requiresCorrectToolForDrops().strength(2.0F).noOcclusion());
@@ -46,6 +55,21 @@ public class BlockCrucible extends Block {
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_) {
+        return SHAPE;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState p_220071_1_, IBlockReader p_220071_2_, BlockPos p_220071_3_, ISelectionContext p_220071_4_) {
+        return SHAPE;
+    }
+
+    @Override
+    public VoxelShape getInteractionShape(BlockState p_199600_1_, IBlockReader p_199600_2_, BlockPos p_199600_3_) {
+        return SHAPE;
     }
 
     @Override
