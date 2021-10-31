@@ -3,8 +3,8 @@ package plus.misterplus.cinderedtally.common.inventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.ItemStackHandler;
 import plus.misterplus.cinderedtally.common.tile.TileEntityCrucible;
@@ -13,10 +13,12 @@ public class CrucibleCraftingInventory implements IInventory {
 
     private final ItemStackHandler itemHandler;
     private final FluidTank fluidTank;
+    private final BlockPos blockPos;
 
     public CrucibleCraftingInventory(TileEntityCrucible te) {
         this.itemHandler = te.getItemHandler();
         this.fluidTank = te.getFluidTank();
+        this.blockPos = te.getBlockPos();
     }
 
     @Override
@@ -72,5 +74,9 @@ public class CrucibleCraftingInventory implements IInventory {
 
     public FluidStack getFluidStack() {
         return fluidTank.getFluid();
+    }
+
+    public BlockPos getBlockPos() {
+        return blockPos;
     }
 }

@@ -3,7 +3,9 @@ package plus.misterplus.cinderedtally.common.item.crafting;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -28,13 +30,14 @@ public class CrucibleRecipe implements IRecipe<CrucibleCraftingInventory> {
     private final FluidStack base;
     private final ItemStack result;
     private final ResourceLocation id;
+    private final boolean heat;
 
-    // TODO: add heat requirement
-    public CrucibleRecipe(ResourceLocation id, NonNullList<Ingredient> ingredients, FluidStack base, ItemStack result) {
+    public CrucibleRecipe(ResourceLocation id, NonNullList<Ingredient> ingredients, FluidStack base, ItemStack result, boolean heat) {
         this.ingredients = ingredients;
         this.base = base;
         this.result = result;
         this.id = id;
+        this.heat = heat;
     }
 
     @Override
@@ -43,6 +46,8 @@ public class CrucibleRecipe implements IRecipe<CrucibleCraftingInventory> {
             if (!ingredients.get(i).test(inventory.getItem(i)))
                 return false;
         }
+        if (heat && world.getBlockState(inventory.getBlockPos().below()).getBlock() != Blocks.FIRE)
+            return false;
         return inventory.getFluidStack().containsFluid(base);
     }
 
@@ -85,20 +90,20 @@ public class CrucibleRecipe implements IRecipe<CrucibleCraftingInventory> {
 
         @Override
         public CrucibleRecipe fromJson(ResourceLocation rl, JsonObject json) {
-            // TODO: add exception throws
             JsonArray ingredientArray = JSONUtils.getAsJsonArray(json, "ingredients");
+            if (ingredientArray.size() > 4)
+                throw new JsonSyntaxException("Ingredient count is greater than 4");
             NonNullList<Ingredient> ingredients = NonNullList.create();
             for (JsonElement entry : ingredientArray) {
                 ingredients.add(Ingredient.fromJson(entry));
             }
-            // TODO: rework this, make this prettier
+            boolean heat = JSONUtils.getAsBoolean(json, "heat");
             try {
                 FluidStack base = FluidStack.loadFluidStackFromNBT(JsonToNBT.parseTag(JSONUtils.getAsJsonObject(json, "base").toString()));
                 ItemStack result = ItemStack.of(JsonToNBT.parseTag(JSONUtils.getAsJsonObject(json, "result").toString()));
-                return new CrucibleRecipe(rl, ingredients, base, result);
+                return new CrucibleRecipe(rl, ingredients, base, result, heat);
             } catch (CommandSyntaxException e) {
-                e.printStackTrace();
-                return null;
+                throw new JsonSyntaxException(e);
             }
         }
 
@@ -111,7 +116,8 @@ public class CrucibleRecipe implements IRecipe<CrucibleCraftingInventory> {
                 ingredients.set(i, Ingredient.fromNetwork(packet));
             FluidStack base = FluidStack.readFromPacket(packet);
             ItemStack result = packet.readItem();
-            return new CrucibleRecipe(rl, ingredients, base, result);
+            boolean heat = packet.readBoolean();
+            return new CrucibleRecipe(rl, ingredients, base, result, heat);
         }
 
         @Override
@@ -121,6 +127,7 @@ public class CrucibleRecipe implements IRecipe<CrucibleCraftingInventory> {
                 ingredient.toNetwork(packet);
             recipe.base.writeToPacket(packet);
             packet.writeItem(recipe.result);
+            packet.writeBoolean(recipe.heat);
         }
     }
 }

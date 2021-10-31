@@ -109,6 +109,8 @@ public class BlockCrucible extends Block {
                     if (recipe != null) {
                         // save toDrain base amount
                         te.setToDrain(recipe.getToDrain());
+                        // cache ingredients for rendering
+                        te.cacheIngredients();
                         // cache result itemStack
                         te.setToCraft(recipe.assemble(inventory));
                         te.setChanged();

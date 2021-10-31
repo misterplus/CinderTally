@@ -9,6 +9,7 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
+  "heat": true,
   "result": {
     "id":"cinderedtally:parchment",
     "Count":1

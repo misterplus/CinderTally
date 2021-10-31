@@ -34,11 +34,22 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
     @Override
     public void render(TileEntityCrucible tile, float partialTicks, MatrixStack mStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         Minecraft mc = Minecraft.getInstance();
+        Random rand = tile.getRandom();
+
+        // render scoop animation
+        int scoopRotation = tile.getScoopRotationWithFacing();
+        IBakedModel scoop = mc.getModelManager().getModel(new ResourceLocation(CinderedTally.MOD_ID, "block/crucible_scoop"));
+        mStack.pushPose();
+        IVertexBuilder scoopBuilder = buffer.getBuffer(RenderType.cutout());
+        mStack.translate(0.5F, 0.1875F, 0.5F);
+        mStack.mulPose(Vector3f.YP.rotationDegrees(scoopRotation));
+        mc.getBlockRenderer().getModelRenderer().renderModel(tile.getLevel(), scoop, tile.getBlockState(), tile.getBlockPos(), mStack, scoopBuilder, true, rand, 0L, combinedOverlay, EmptyModelData.INSTANCE);
+        mStack.popPose();
 
         Fluid fluid = tile.getLastFluid();
         float height = tile.getAnimatedFluidHeight();
         if (fluid != Fluids.EMPTY && height > 0.1875F) {
-            IVertexBuilder builder = buffer.getBuffer(RenderType.translucentNoCrumbling());
+            IVertexBuilder fluidBuilder = buffer.getBuffer(RenderType.translucentNoCrumbling());
             // get the fluid texture from the texture atlas, u = x coordinates, v = y coordinates
             // u0 < u1, v0 < v1
             TextureAtlasSprite still = mc.getTextureAtlas(PlayerContainer.BLOCK_ATLAS).apply(fluid.getAttributes().getStillTexture());
@@ -54,17 +65,17 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
             mStack.pushPose();
 
             //matrixStack.getLast().getPositionMatrix(), x, y, z  color(r,g,b,a)  texture(u,v)
-            builder.vertex(mStack.last().pose(), 0.1875F, height, 0.1875F).color(r, g, b, a).uv(still.getU0(), still.getV0()).uv2(light).normal(1.0F, 0, 0).endVertex();
-            builder.vertex(mStack.last().pose(), 0.1875F, height, 0.8125F).color(r, g, b, a).uv(still.getU0(), still.getV1()).uv2(light).normal(1.0F, 0, 0).endVertex();
-            builder.vertex(mStack.last().pose(), 0.8125F, height, 0.8125F).color(r, g, b, a).uv(still.getU1(), still.getV1()).uv2(light).normal(1.0F, 0, 0).endVertex();
-            builder.vertex(mStack.last().pose(), 0.8125F, height, 0.1875F).color(r, g, b, a).uv(still.getU1(), still.getV0()).uv2(light).normal(1.0F, 0, 0).endVertex();
+            fluidBuilder.vertex(mStack.last().pose(), 0.1875F, height, 0.1875F).color(r, g, b, a).uv(still.getU0(), still.getV0()).uv2(light).normal(1.0F, 0, 0).endVertex();
+            fluidBuilder.vertex(mStack.last().pose(), 0.1875F, height, 0.8125F).color(r, g, b, a).uv(still.getU0(), still.getV1()).uv2(light).normal(1.0F, 0, 0).endVertex();
+            fluidBuilder.vertex(mStack.last().pose(), 0.8125F, height, 0.8125F).color(r, g, b, a).uv(still.getU1(), still.getV1()).uv2(light).normal(1.0F, 0, 0).endVertex();
+            fluidBuilder.vertex(mStack.last().pose(), 0.8125F, height, 0.1875F).color(r, g, b, a).uv(still.getU1(), still.getV0()).uv2(light).normal(1.0F, 0, 0).endVertex();
 
             mStack.popPose();
         }
 
         // TODO: rotate items when crafting
-        List<ItemStack> itemList = tile.getContainedItems();
-        Random rand = tile.getRandom();
+        boolean isCrafting = tile.isCrafting();
+        List<ItemStack> itemList = tile.isCrafting() ? tile.getInCrafting() : tile.getContainedItems();
         if (!itemList.isEmpty()) {
             ItemRenderer itemRenderer = mc.getItemRenderer();
             IBakedModel model;
@@ -90,6 +101,9 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
                 f3 = rand.nextFloat();
                 mStack.mulPose(Vector3f.ZP.rotationDegrees(f3 * 360));
 
+                if (isCrafting)
+                    mStack.mulPose(Vector3f.ZP.rotationDegrees(scoopRotation));
+
                 // scale down to a third of the size (scale before rendering)
                 mStack.scale(0.33F, 0.33F, 0.33F);
 
@@ -107,16 +121,5 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
             }
             mStack.popPose();
         }
-
-        // render scoop animation
-        // TODO: displace scoop depending on rotation
-        int scoopRotation = tile.getScoopRotation();
-        IBakedModel scoop = mc.getModelManager().getModel(new ResourceLocation(CinderedTally.MOD_ID, "block/crucible_scoop"));
-        mStack.pushPose();
-        IVertexBuilder builder = buffer.getBuffer(RenderType.cutout());
-        mStack.translate(0.5F, 0.1875F, 0.5F);
-        mStack.mulPose(Vector3f.YP.rotationDegrees(scoopRotation));
-        mc.getBlockRenderer().getModelRenderer().renderModel(tile.getLevel(), scoop, tile.getBlockState(), tile.getBlockPos(), mStack, builder, true, rand, 0L, combinedOverlay, EmptyModelData.INSTANCE);
-        mStack.popPose();
     }
 }

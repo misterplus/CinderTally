@@ -18,6 +18,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import plus.misterplus.cinderedtally.common.block.BlockCrucible;
 import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
 import javax.annotation.Nonnull;
@@ -60,6 +61,12 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
     private int heightAmount = 0;
     private int scoopRotation = 0;
 
+    public List<ItemStack> getInCrafting() {
+        return inCrafting;
+    }
+
+    private final List<ItemStack> inCrafting = new ArrayList<>();
+
     public void setToDrain(int toDrain) {
         this.toDrain = toDrain;
     }
@@ -93,6 +100,11 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
         nbt.putInt("toDrain", toDrain);
         nbt.put("toCraft", toCraft.serializeNBT());
         nbt.putInt("scoopRotation", scoopRotation);
+        CompoundNBT inCrafting = new CompoundNBT();
+        for (int i = 0; i < inCrafting.size(); i++) {
+            inCrafting.put(String.valueOf(i), this.inCrafting.get(i).serializeNBT());
+        }
+        nbt.put("inCrafting", inCrafting);
         return nbt;
     }
 
@@ -108,6 +120,10 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
         toDrain = nbt.getInt("toDrain");
         toCraft = ItemStack.of(nbt.getCompound("toCraft"));
         scoopRotation = nbt.getInt("scoopRotation");
+        CompoundNBT inCrafting = nbt.getCompound("inCrafting");
+        for (int i = 0; i < inCrafting.size(); i++) {
+            this.inCrafting.set(i, ItemStack.of(inCrafting.getCompound(String.valueOf(i))));
+        }
     }
 
     @Override
@@ -177,8 +193,8 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
         return lastFluid;
     }
 
-    public int getScoopRotation() {
-        return scoopRotation;
+    public int getScoopRotationWithFacing() {
+        return (scoopRotation + (4 - getBlockState().getValue(BlockCrucible.FACING).getOpposite().get2DDataValue()) * 90) % 360;
     }
 
     @Override
@@ -201,6 +217,7 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
     public void doCraft() {
         itemHandler.setStackInSlot(0, toCraft);
         toCraft = ItemStack.EMPTY;
+        inCrafting.clear();
     }
 
     public void setToCraft(ItemStack toCraft) {
@@ -209,5 +226,10 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
 
     public boolean isCrafting() {
         return toDrain > 0;
+    }
+
+    public void cacheIngredients() {
+        for (int i = 0; i < itemHandler.getSlots(); i++)
+            inCrafting.add(itemHandler.getStackInSlot(i));
     }
 }
