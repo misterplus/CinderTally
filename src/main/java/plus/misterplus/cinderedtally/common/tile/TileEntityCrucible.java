@@ -14,6 +14,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -59,13 +60,15 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
     private int heightAmount = 0;
     private int scoopRotation = 0;
 
-    public TileEntityCrucible() {
-        super(CinderedTallyRegistry.TILE_CRUCIBLE);
+    public void setToDrain(int toDrain) {
+        this.toDrain = toDrain;
     }
 
-    public void clearCrucible() {
-        for (int i = 0; i < itemHandler.getSlots(); i++)
-            itemHandler.setStackInSlot(i, ItemStack.EMPTY);
+    private int toDrain = 0;
+    private ItemStack toCraft = ItemStack.EMPTY;
+
+    public TileEntityCrucible() {
+        super(CinderedTallyRegistry.TILE_CRUCIBLE);
     }
 
     public ItemStackHandler getItemHandler() {
@@ -87,6 +90,9 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
         // save here
         itemCap.ifPresent(i -> nbt.put("ItemStackHandler", i.serializeNBT()));
         fluidCap.ifPresent(f -> nbt.put("FluidTank", f.writeToNBT(new CompoundNBT())));
+        nbt.putInt("toDrain", toDrain);
+        nbt.put("toCraft", toCraft.serializeNBT());
+        nbt.putInt("scoopRotation", scoopRotation);
         return nbt;
     }
 
@@ -99,6 +105,9 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
             f.readFromNBT(nbt.getCompound("FluidTank"));
             cacheLastFluid(f.getFluid());
         });
+        toDrain = nbt.getInt("toDrain");
+        toCraft = ItemStack.of(nbt.getCompound("toCraft"));
+        scoopRotation = nbt.getInt("scoopRotation");
     }
 
     @Override
@@ -174,11 +183,31 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
 
     @Override
     public void tick() {
-        scoopRotation = (scoopRotation + 3) % 360;
+        // drain if is crafting
+        if (isCrafting()) {
+            FluidStack drained = fluidTank.drain(10, IFluidHandler.FluidAction.EXECUTE);
+            toDrain -= drained.getAmount();
+            scoopRotation = (scoopRotation + 10) % 360;
+            if (toDrain == 0)
+                doCraft();
+        }
     }
 
     @Override
     public Random getRandom() {
         return new Random(getBlockPos().getX() * 36L + getBlockPos().getY() * 64L + getBlockPos().getZ() * 46L);
+    }
+
+    public void doCraft() {
+        itemHandler.setStackInSlot(0, toCraft);
+        toCraft = ItemStack.EMPTY;
+    }
+
+    public void setToCraft(ItemStack toCraft) {
+        this.toCraft = toCraft;
+    }
+
+    public boolean isCrafting() {
+        return toDrain > 0;
     }
 }

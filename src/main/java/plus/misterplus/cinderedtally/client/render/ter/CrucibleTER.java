@@ -62,6 +62,7 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
             mStack.popPose();
         }
 
+        // TODO: rotate items when crafting
         List<ItemStack> itemList = tile.getContainedItems();
         Random rand = tile.getRandom();
         if (!itemList.isEmpty()) {
@@ -108,6 +109,7 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
         }
 
         // render scoop animation
+        // TODO: displace scoop depending on rotation
         int scoopRotation = tile.getScoopRotation();
         IBakedModel scoop = mc.getModelManager().getModel(new ResourceLocation(CinderedTally.MOD_ID, "block/crucible_scoop"));
         mStack.pushPose();
