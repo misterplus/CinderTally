@@ -10,7 +10,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -29,6 +28,7 @@ import plus.misterplus.cinderedtally.common.inventory.CrucibleCraftingInventory;
 import plus.misterplus.cinderedtally.common.item.crafting.CrucibleRecipe;
 import plus.misterplus.cinderedtally.common.tile.TileEntityCrucible;
 import plus.misterplus.cinderedtally.helper.ItemStackHandlerHelper;
+import plus.misterplus.cinderedtally.helper.SoundHelper;
 import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
 import javax.annotation.Nullable;
@@ -117,10 +117,10 @@ public class BlockCrucible extends Block {
                         te.setToCraft(recipe.assemble(inventory));
                         te.setChanged();
                         playParticles(world, blockPos, rand, ParticleTypes.WITCH);
-                        world.playSound(playerEntity, blockPos, SoundEvents.PLAYER_LEVELUP, SoundCategory.BLOCKS, 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+                        world.playSound(playerEntity, blockPos, SoundEvents.PLAYER_LEVELUP, SoundCategory.BLOCKS, 1.0F, SoundHelper.getPitch(rand));
                     } else {
                         playParticles(world, blockPos, rand, ParticleTypes.ANGRY_VILLAGER);
-                        world.playSound(playerEntity, blockPos, SoundEvents.VILLAGER_NO, SoundCategory.BLOCKS, 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+                        world.playSound(playerEntity, blockPos, SoundEvents.VILLAGER_NO, SoundCategory.BLOCKS, 1.0F, SoundHelper.getPitch(rand));
                     }
                 }
             } else if (!playerEntity.isShiftKeyDown()) {
@@ -141,6 +141,6 @@ public class BlockCrucible extends Block {
         double d0 = rand.nextGaussian() * 0.02D;
         double d1 = rand.nextGaussian() * 0.02D;
         double d2 = rand.nextGaussian() * 0.02D;
-        world.addParticle(particle, pos.getX() + 0.5F, pos.getY() + 1.0F, pos.getZ() + 0.5F, d0, d1, d2);
+        world.addParticle(particle, pos.getX() + 0.5F, pos.getY() + 0.7F, pos.getZ() + 0.5F, d0, d1, d2);
     }
 }

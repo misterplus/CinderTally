@@ -201,7 +201,8 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
     public void tick() {
         // drain if is crafting
         if (isCrafting()) {
-            FluidStack drained = fluidTank.drain(10, IFluidHandler.FluidAction.EXECUTE);
+            // drain 10mb/t or the rest
+            FluidStack drained = fluidTank.drain(Math.min(10, toDrain), IFluidHandler.FluidAction.EXECUTE);
             toDrain -= drained.getAmount();
             scoopRotation = (scoopRotation + 10) % 360;
             if (toDrain == 0)
