@@ -88,8 +88,8 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
 
             for (ItemStack stack : itemList) {
                 // move to a random spot on the bottom of the crucible
-                f1 = rand.nextFloat() * 0.4F + 0.3F;
-                f2 = rand.nextFloat() * 0.4F + 0.3F;
+                f1 = rand.nextFloat() * 0.3F + 0.35F;
+                f2 = rand.nextFloat() * 0.3F + 0.35F;
                 // x is rotated, (x, z, -y) is the axis now
                 mStack.translate(f1, f2, 0F);
 
