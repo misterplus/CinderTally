@@ -109,8 +109,8 @@ public class TileEntityCrucible extends TileEntity implements ITickableTileEntit
     }
 
     @Override
-    public void load(BlockState blockState, CompoundNBT nbt) {
-        super.load(blockState, nbt);
+    public void load(BlockState state, CompoundNBT nbt) {
+        super.load(state, nbt);
         // load here
         itemCap.ifPresent(i -> i.deserializeNBT(nbt.getCompound("ItemStackHandler")));
         fluidCap.ifPresent(f -> {

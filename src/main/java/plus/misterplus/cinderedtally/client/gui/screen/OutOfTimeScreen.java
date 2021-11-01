@@ -53,41 +53,41 @@ public class OutOfTimeScreen extends Screen {
         this.minecraft.setScreen(new MainMenuScreen());
     }
 
-    public void render(MatrixStack p_230430_1_, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
-        this.fillGradient(p_230430_1_, 0, 0, this.width, this.height, 1615855616, -1602211792);
+    public void render(MatrixStack mStack, int mouseX, int mouseY, float partialTicks) {
+        this.fillGradient(mStack, 0, 0, this.width, this.height, 1615855616, -1602211792);
         RenderSystem.pushMatrix();
         RenderSystem.scalef(2.0F, 2.0F, 2.0F);
-        drawCenteredString(p_230430_1_, this.font, this.title, this.width / 2 / 2, 30, 16777215);
+        drawCenteredString(mStack, this.font, this.title, this.width / 2 / 2, 30, 16777215);
         RenderSystem.popMatrix();
-        drawCenteredString(p_230430_1_, this.font, this.causeOfDeath, this.width / 2, 85, 16777215);
+        drawCenteredString(mStack, this.font, this.causeOfDeath, this.width / 2, 85, 16777215);
 
-        drawCenteredString(p_230430_1_, this.font, this.deathScore, this.width / 2, 100, 16777215);
-        if (p_230430_3_ > 85 && p_230430_3_ < 85 + 9) {
-            Style style = this.getClickedComponentStyleAt(p_230430_2_);
-            this.renderComponentHoverEffect(p_230430_1_, style, p_230430_2_, p_230430_3_);
+        drawCenteredString(mStack, this.font, this.deathScore, this.width / 2, 100, 16777215);
+        if (mouseY > 85 && mouseY < 85 + 9) {
+            Style style = this.getClickedComponentStyleAt(mouseX);
+            this.renderComponentHoverEffect(mStack, style, mouseX, mouseY);
         }
 
-        super.render(p_230430_1_, p_230430_2_, p_230430_3_, p_230430_4_);
+        super.render(mStack, mouseX, mouseY, partialTicks);
     }
 
     @Nullable
-    private Style getClickedComponentStyleAt(int p_238623_1_) {
+    private Style getClickedComponentStyleAt(int mouseX) {
         int i = this.minecraft.font.width(this.causeOfDeath);
         int j = this.width / 2 - i / 2;
         int k = this.width / 2 + i / 2;
-        return p_238623_1_ >= j && p_238623_1_ <= k ? this.minecraft.font.getSplitter().componentStyleAtWidth(this.causeOfDeath, p_238623_1_ - j) : null;
+        return mouseX >= j && mouseX <= k ? this.minecraft.font.getSplitter().componentStyleAtWidth(this.causeOfDeath, mouseX - j) : null;
     }
 
-    public boolean mouseClicked(double p_231044_1_, double p_231044_3_, int p_231044_5_) {
-        if (p_231044_3_ > 85.0D && p_231044_3_ < (double) (85 + 9)) {
-            Style style = this.getClickedComponentStyleAt((int) p_231044_1_);
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (mouseY > 85.0D && mouseY < (double) (85 + 9)) {
+            Style style = this.getClickedComponentStyleAt((int) mouseX);
             if (style != null && style.getClickEvent() != null && style.getClickEvent().getAction() == ClickEvent.Action.OPEN_URL) {
                 this.handleComponentClicked(style);
                 return false;
             }
         }
 
-        return super.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_);
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     public boolean isPauseScreen() {

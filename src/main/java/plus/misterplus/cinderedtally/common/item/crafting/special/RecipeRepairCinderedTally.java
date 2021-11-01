@@ -1,4 +1,4 @@
-package plus.misterplus.cinderedtally.common.item.crafting;
+package plus.misterplus.cinderedtally.common.item.crafting.special;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.Item;
@@ -17,12 +17,12 @@ public class RecipeRepairCinderedTally extends SpecialRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInventory inventory, World world) {
+    public boolean matches(CraftingInventory inv, World world) {
         ItemStack itemstack = ItemStack.EMPTY;
         int pages = 0;
 
-        for (int i = 0; i < inventory.getContainerSize(); ++i) {
-            ItemStack itemstack1 = inventory.getItem(i);
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            ItemStack itemstack1 = inv.getItem(i);
             if (!itemstack1.isEmpty()) {
                 if (itemstack1.getItem() instanceof ItemCinderedTally) {
                     if (!itemstack.isEmpty()) {
@@ -41,11 +41,11 @@ public class RecipeRepairCinderedTally extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInventory inventory) {
+    public ItemStack assemble(CraftingInventory inv) {
         ItemStack itemstack = ItemStack.EMPTY;
         int pages = 0;
-        for (int i = 0; i < inventory.getContainerSize(); i++) {
-            ItemStack itemstack1 = inventory.getItem(i);
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+            ItemStack itemstack1 = inv.getItem(i);
             Item item = itemstack1.getItem();
             if (!itemstack1.isEmpty()) {
                 if (item instanceof ItemCinderedTally) {
@@ -65,8 +65,8 @@ public class RecipeRepairCinderedTally extends SpecialRecipe {
     }
 
     @Override
-    public boolean canCraftInDimensions(int p_194133_1_, int p_194133_2_) {
-        return p_194133_1_ * p_194133_2_ >= 2;
+    public boolean canCraftInDimensions(int width, int height) {
+        return width * height >= 2;
     }
 
     @Override

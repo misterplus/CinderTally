@@ -22,10 +22,10 @@ public class EffectTimeDilation extends Effect {
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entity, int amplifier) {
-        World world = entity.getCommandSenderWorld();
-        if (!world.isClientSide() && entity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) entity;
+    public void applyEffectTick(LivingEntity livingEntity, int amplifier) {
+        World world = livingEntity.getCommandSenderWorld();
+        if (!world.isClientSide() && livingEntity instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) livingEntity;
             LifespanHelper.extendLifespan(player, 1);
             if (amplifier > 3)
                 player.addEffect(new EffectInstance(CinderedTallyRegistry.STASIS, player.getEffect(CinderedTallyRegistry.TIME_DILATION).getDuration(), 0));

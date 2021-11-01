@@ -18,11 +18,11 @@ public class StasisLayer extends LayerRenderer<AbstractClientPlayerEntity, Playe
     }
 
     @Override
-    public void render(MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, AbstractClientPlayerEntity playerEntity, float f1, float f2, float f3, float f4, float f5, float f6) {
-        if (EffectHelper.isInStasis(playerEntity)) {
-            matrixStack.pushPose();
-            getParentModel().renderToBuffer(matrixStack, iRenderTypeBuffer.getBuffer(CinderedTallyRenderType.stasis()), i, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-            matrixStack.popPose();
+    public void render(MatrixStack mStack, IRenderTypeBuffer buffer, int packedLight, AbstractClientPlayerEntity clientPlayerEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        if (EffectHelper.isInStasis(clientPlayerEntity)) {
+            mStack.pushPose();
+            getParentModel().renderToBuffer(mStack, buffer.getBuffer(CinderedTallyRenderType.stasis()), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            mStack.popPose();
         }
     }
 }

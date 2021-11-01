@@ -18,10 +18,10 @@ public class EffectStasis extends Effect {
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entity, int amplifier) {
-        World world = entity.getCommandSenderWorld();
-        if (!world.isClientSide() && entity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) entity;
+    public void applyEffectTick(LivingEntity livingEntity, int amplifier) {
+        World world = livingEntity.getCommandSenderWorld();
+        if (!world.isClientSide() && livingEntity instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) livingEntity;
             // stasis & time dilation should not co-exist
             if (player.hasEffect(CinderedTallyRegistry.TIME_DILATION))
                 player.removeEffect(CinderedTallyRegistry.TIME_DILATION);

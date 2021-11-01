@@ -1,11 +1,9 @@
 package plus.misterplus.cinderedtally.common.block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
@@ -28,8 +26,8 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
-import plus.misterplus.cinderedtally.common.inventory.CrucibleCraftingInventory;
 import plus.misterplus.cinderedtally.common.item.crafting.CrucibleRecipe;
+import plus.misterplus.cinderedtally.common.item.wrapper.CrucibleRecipeWrapper;
 import plus.misterplus.cinderedtally.common.tile.TileEntityCrucible;
 import plus.misterplus.cinderedtally.helper.ItemStackHandlerHelper;
 import plus.misterplus.cinderedtally.helper.SoundHelper;
@@ -40,12 +38,26 @@ import java.util.Random;
 
 public class BlockCrucible extends Block {
 
-    // TODO: update bounding box
-    //       add entity fire interaction
-
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
-    private static final VoxelShape INSIDE = box(3.0D, 3.0D, 3.0D, 13.0D, 9.0D, 13.0D);
-    private static final VoxelShape SHAPE = VoxelShapes.join(box(1.0D, 0D, 1.0D, 15.0D, 10.0D, 15.0D), INSIDE, IBooleanFunction.ONLY_FIRST);
+    private static final VoxelShape SHAPE = VoxelShapes.or(
+            // feet
+            box(2, 0, 2, 4, 2, 4),
+            box(12, 0, 2, 14, 2, 4),
+            box(2, 0, 12, 4, 2, 14),
+            box(12, 0, 12, 14, 2, 14),
+            // body
+            VoxelShapes.join(
+                    box(2, 2, 2, 14, 9, 14),
+                    box(3, 3, 3, 13, 9, 13),
+                    IBooleanFunction.ONLY_FIRST
+            ),
+            // top
+            VoxelShapes.join(
+                    box(1, 10, 1, 15, 10, 15),
+                    box(2, 10, 2, 14, 10, 14),
+                    IBooleanFunction.ONLY_FIRST
+            )
+    );
 
     public BlockCrucible() {
         super(AbstractBlock.Properties.of(Material.METAL, MaterialColor.STONE).requiresCorrectToolForDrops().strength(2.0F).noOcclusion());
@@ -58,17 +70,7 @@ public class BlockCrucible extends Block {
     }
 
     @Override
-    public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_) {
-        return SHAPE;
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(BlockState p_220071_1_, IBlockReader p_220071_2_, BlockPos p_220071_3_, ISelectionContext p_220071_4_) {
-        return SHAPE;
-    }
-
-    @Override
-    public VoxelShape getInteractionShape(BlockState p_199600_1_, IBlockReader p_199600_2_, BlockPos p_199600_3_) {
+    public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
         return SHAPE;
     }
 
@@ -95,10 +97,10 @@ public class BlockCrucible extends Block {
     }
 
     @Override
-    public void onRemove(BlockState blockState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
         // if it's removed / replaced
-        if (blockState.getBlock() != newState.getBlock()) {
-            TileEntityCrucible te = (TileEntityCrucible) world.getBlockEntity(blockPos);
+        if (state.getBlock() != newState.getBlock()) {
+            TileEntityCrucible te = (TileEntityCrucible) world.getBlockEntity(pos);
             te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(itemHandler -> {
                 ItemStack stack;
                 for (int i = 0; i < itemHandler.getSlots(); i++) {
@@ -106,59 +108,69 @@ public class BlockCrucible extends Block {
                     if (stack.isEmpty())
                         break;
                     else
-                        popResource(world, blockPos, stack);
+                        popResource(world, pos, stack);
                 }
             });
             // fluid is ignored
         }
-        super.onRemove(blockState, world, blockPos, newState, isMoving);
+        super.onRemove(state, world, pos, newState, isMoving);
     }
 
     @Override
-    public ActionResultType use(BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult hit) {
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (hand == Hand.MAIN_HAND) {
-            TileEntityCrucible te = (TileEntityCrucible) world.getBlockEntity(blockPos);
-            if (te.isCrafting())
+            TileEntityCrucible tile = (TileEntityCrucible) world.getBlockEntity(pos);
+            if (tile.isCrafting())
                 return ActionResultType.PASS;
-            ItemStack stackInHand = playerEntity.getItemInHand(hand);
-            ItemStackHandler itemStackHandler = te.getItemHandler();
+            ItemStack stackInHand = player.getItemInHand(hand);
+            ItemStackHandler itemStackHandler = tile.getItemHandler();
             if (stackInHand.isEmpty()) {
-                if (playerEntity.isShiftKeyDown()) {
+                if (player.isShiftKeyDown()) {
                     // remove item from crucible
                     ItemStack extracted = ItemStackHandlerHelper.extractAllFromLastFilledSlot(itemStackHandler, false);
-                    ItemHandlerHelper.giveItemToPlayer(playerEntity, extracted);
+                    ItemHandlerHelper.giveItemToPlayer(player, extracted);
                 } else {
                     // craft the recipe
-                    CrucibleCraftingInventory inventory = new CrucibleCraftingInventory(te);
-                    CrucibleRecipe recipe = world.getRecipeManager().getRecipeFor(CinderedTallyRegistry.RECIPE_CRUCIBLE, inventory, world).orElse(null);
-                    Random rand = te.getRandom();
+                    CrucibleRecipeWrapper wrapper = new CrucibleRecipeWrapper(tile);
+                    CrucibleRecipe recipe = world.getRecipeManager().getRecipeFor(CinderedTallyRegistry.RECIPE_CRUCIBLE, wrapper, world).orElse(null);
+                    Random rand = tile.getRandom();
                     if (recipe != null) {
                         // save toDrain base amount
-                        te.setToDrain(recipe.getToDrain());
+                        tile.setToDrain(recipe.getToDrain());
                         // cache ingredients for rendering
-                        te.cacheIngredients();
+                        tile.cacheIngredients();
                         // cache result itemStack
-                        te.setToCraft(recipe.assemble(inventory));
-                        te.setChanged();
-                        playParticles(world, blockPos, rand, ParticleTypes.WITCH);
-                        world.playSound(playerEntity, blockPos, SoundEvents.PLAYER_LEVELUP, SoundCategory.BLOCKS, 1.0F, SoundHelper.getPitch(rand));
+                        tile.setToCraft(recipe.assemble(wrapper));
+                        tile.setChanged();
+                        playParticles(world, pos, rand, ParticleTypes.WITCH);
+                        world.playSound(player, pos, SoundEvents.PLAYER_LEVELUP, SoundCategory.BLOCKS, 1.0F, SoundHelper.getPitch(rand));
                     } else {
-                        playParticles(world, blockPos, rand, ParticleTypes.ANGRY_VILLAGER);
-                        world.playSound(playerEntity, blockPos, SoundEvents.VILLAGER_NO, SoundCategory.BLOCKS, 1.0F, SoundHelper.getPitch(rand));
+                        playParticles(world, pos, rand, ParticleTypes.ANGRY_VILLAGER);
+                        world.playSound(player, pos, SoundEvents.VILLAGER_NO, SoundCategory.BLOCKS, 1.0F, SoundHelper.getPitch(rand));
                     }
                 }
-            } else if (!playerEntity.isShiftKeyDown()) {
+            } else if (!player.isShiftKeyDown()) {
                 // try filling the fluid tank first
-                boolean fluidFilled = FluidUtil.interactWithFluidHandler(playerEntity, hand, te.getFluidTank());
+                boolean fluidFilled = FluidUtil.interactWithFluidHandler(player, hand, tile.getFluidTank());
                 if (!fluidFilled) {
                     // if not a bucket action, add item to crucible
                     ItemStack extra = ItemStackHandlerHelper.insertToFirstEmptySlot(itemStackHandler, stackInHand, false);
-                    playerEntity.setItemInHand(hand, extra);
+                    player.setItemInHand(hand, extra);
                 }
             }
             return ActionResultType.sidedSuccess(world.isClientSide());
         }
         return ActionResultType.PASS;
+    }
+
+    @Override
+    public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
+        double x = entity.getX();
+        double y = entity.getY();
+        double z = entity.getZ();
+        if (!world.isClientSide() && x > pos.getX() + 0.0625D && x < pos.getX() + 0.9375D && z > pos.getZ() + 0.0625D && z < pos.getZ() + 0.9375D && y < pos.getY() + 0.5625D && world.getBlockState(pos.below()).getBlock() == Blocks.FIRE && !entity.isOnFire()) {
+            entity.setSecondsOnFire(3);
+        }
     }
 
     private void playParticles(World world, BlockPos pos, Random rand, IParticleData particle) {

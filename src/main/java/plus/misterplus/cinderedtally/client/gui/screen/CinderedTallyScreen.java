@@ -19,15 +19,15 @@ public class CinderedTallyScreen extends ContainerScreen<CinderedTallyContainer>
     }
 
     @Override
-    public void render(MatrixStack p_230430_1_, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
-        this.renderBackground(p_230430_1_);
-        this.renderBg(p_230430_1_, p_230430_4_, p_230430_2_, p_230430_3_);
-        super.render(p_230430_1_, p_230430_2_, p_230430_3_, p_230430_4_);
-        this.renderTooltip(p_230430_1_, p_230430_2_, p_230430_3_);
+    public void render(MatrixStack mStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(mStack);
+        this.renderBg(mStack, partialTicks, mouseX, mouseY);
+        super.render(mStack, mouseX, mouseY, partialTicks);
+        this.renderTooltip(mStack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(MatrixStack p_230450_1_, float p_230450_2_, int p_230450_3_, int p_230450_4_) {
+    protected void renderBg(MatrixStack mStack, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 }

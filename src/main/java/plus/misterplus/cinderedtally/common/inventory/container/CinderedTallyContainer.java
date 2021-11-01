@@ -10,8 +10,8 @@ import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
 public class CinderedTallyContainer extends Container {
 
-    public CinderedTallyContainer(int windowId, PlayerInventory playerInventory, IInventory container) {
-        super(CinderedTallyRegistry.CONTAINER_CINDER_TALLY, windowId);
+    public CinderedTallyContainer(int containerId, PlayerInventory playerInventory, IInventory container) {
+        super(CinderedTallyRegistry.CONTAINER_CINDER_TALLY, containerId);
         int containerRows = 1;
         int i = (containerRows - 4) * 18;
 
@@ -19,7 +19,7 @@ public class CinderedTallyContainer extends Container {
             for (int k = 0; k < 8; ++k) {
                 this.addSlot(new Slot(container, k + j * 9, 8 + k * 18, 18 + j * 18) {
                     @Override
-                    public boolean mayPickup(PlayerEntity p_82869_1_) {
+                    public boolean mayPickup(PlayerEntity player) {
                         return false;
                     }
                 });
@@ -42,6 +42,4 @@ public class CinderedTallyContainer extends Container {
     public boolean stillValid(PlayerEntity player) {
         return EffectHelper.isEffectivelyInStasis(player);
     }
-
-
 }

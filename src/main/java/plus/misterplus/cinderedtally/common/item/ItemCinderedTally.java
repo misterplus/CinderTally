@@ -65,20 +65,20 @@ public class ItemCinderedTally extends Item {
 
     // adds an empty Cindered Tally to the creative inventory
     @Override
-    public void fillItemCategory(ItemGroup itemGroup, NonNullList<ItemStack> itemsAdded) {
-        if (this.allowdedIn(itemGroup)) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        if (this.allowdedIn(group)) {
             CompoundNBT nbt = new CompoundNBT();
             nbt.putInt(NBT_KEY_UPGRADE, 0);
             nbt.putInt(NBT_KEY_PAGE, 0);
             ItemStack itemStack = new ItemStack(this);
             itemStack.setTag(nbt);
-            itemsAdded.add(itemStack);
+            items.add(itemStack);
             CompoundNBT nbt2 = new CompoundNBT();
             nbt2.putInt(NBT_KEY_UPGRADE, 0);
             nbt2.putInt(NBT_KEY_PAGE, MAX_PAGE_DEFAULT);
             ItemStack itemStack2 = new ItemStack(this);
             itemStack2.setTag(nbt);
-            itemsAdded.add(itemStack2);
+            items.add(itemStack2);
         }
     }
 

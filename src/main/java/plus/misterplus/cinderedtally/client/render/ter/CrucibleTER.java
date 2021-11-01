@@ -73,7 +73,6 @@ public class CrucibleTER extends TileEntityRenderer<TileEntityCrucible> {
             mStack.popPose();
         }
 
-        // TODO: rotate items when crafting
         boolean isCrafting = tile.isCrafting();
         List<ItemStack> itemList = tile.isCrafting() ? tile.getInCrafting() : tile.getContainedItems();
         if (!itemList.isEmpty()) {

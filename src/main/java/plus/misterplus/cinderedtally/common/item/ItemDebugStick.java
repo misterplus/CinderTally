@@ -15,7 +15,7 @@ public class ItemDebugStick extends Item {
     }
 
     @Override
-    public boolean isFoil(ItemStack p_77636_1_) {
+    public boolean isFoil(ItemStack itemStack) {
         return true;
     }
 

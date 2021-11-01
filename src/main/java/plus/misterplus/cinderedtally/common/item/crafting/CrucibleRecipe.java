@@ -7,7 +7,6 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
@@ -19,12 +18,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import plus.misterplus.cinderedtally.common.inventory.CrucibleCraftingInventory;
+import plus.misterplus.cinderedtally.common.item.wrapper.CrucibleRecipeWrapper;
 import plus.misterplus.cinderedtally.registry.CinderedTallyRegistry;
 
 import javax.annotation.Nullable;
 
-public class CrucibleRecipe implements IRecipe<CrucibleCraftingInventory> {
+public class CrucibleRecipe extends InteractiveRecipe<CrucibleRecipeWrapper> {
 
     private final NonNullList<Ingredient> ingredients;
     private final FluidStack base;
@@ -41,25 +40,20 @@ public class CrucibleRecipe implements IRecipe<CrucibleCraftingInventory> {
     }
 
     @Override
-    public boolean matches(CrucibleCraftingInventory inventory, World world) {
+    public boolean matches(CrucibleRecipeWrapper inv, World world) {
         for (int i = 0; i < ingredients.size(); i++) {
-            if (!ingredients.get(i).test(inventory.getItem(i)))
+            if (!ingredients.get(i).test(inv.getItem(i)))
                 return false;
         }
-        if (heat && world.getBlockState(inventory.getBlockPos().below()).getBlock() != Blocks.FIRE)
+        if (heat && world.getBlockState(inv.getBlockPos().below()).getBlock() != Blocks.FIRE)
             return false;
-        return inventory.getFluidStack().containsFluid(base);
+        return inv.getFluidStack().containsFluid(base);
     }
 
     @Override
-    public ItemStack assemble(CrucibleCraftingInventory inventory) {
-        inventory.clearContent();
+    public ItemStack assemble(CrucibleRecipeWrapper inv) {
+        inv.clearContent();
         return result.copy();
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int p_194133_1_, int p_194133_2_) {
-        return true;
     }
 
     @Override
@@ -89,7 +83,7 @@ public class CrucibleRecipe implements IRecipe<CrucibleCraftingInventory> {
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrucibleRecipe> {
 
         @Override
-        public CrucibleRecipe fromJson(ResourceLocation rl, JsonObject json) {
+        public CrucibleRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             JsonArray ingredientArray = JSONUtils.getAsJsonArray(json, "ingredients");
             if (ingredientArray.size() > 4)
                 throw new JsonSyntaxException("Ingredient count is greater than 4");
@@ -101,7 +95,7 @@ public class CrucibleRecipe implements IRecipe<CrucibleCraftingInventory> {
             try {
                 FluidStack base = FluidStack.loadFluidStackFromNBT(JsonToNBT.parseTag(JSONUtils.getAsJsonObject(json, "base").toString()));
                 ItemStack result = ItemStack.of(JsonToNBT.parseTag(JSONUtils.getAsJsonObject(json, "result").toString()));
-                return new CrucibleRecipe(rl, ingredients, base, result, heat);
+                return new CrucibleRecipe(recipeId, ingredients, base, result, heat);
             } catch (CommandSyntaxException e) {
                 throw new JsonSyntaxException(e);
             }
@@ -109,25 +103,25 @@ public class CrucibleRecipe implements IRecipe<CrucibleCraftingInventory> {
 
         @Nullable
         @Override
-        public CrucibleRecipe fromNetwork(ResourceLocation rl, PacketBuffer packet) {
-            int size = packet.readVarInt();
+        public CrucibleRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+            int size = buffer.readVarInt();
             NonNullList<Ingredient> ingredients = NonNullList.create();
             for (int i = 0; i < size; i++)
-                ingredients.set(i, Ingredient.fromNetwork(packet));
-            FluidStack base = FluidStack.readFromPacket(packet);
-            ItemStack result = packet.readItem();
-            boolean heat = packet.readBoolean();
-            return new CrucibleRecipe(rl, ingredients, base, result, heat);
+                ingredients.set(i, Ingredient.fromNetwork(buffer));
+            FluidStack base = FluidStack.readFromPacket(buffer);
+            ItemStack result = buffer.readItem();
+            boolean heat = buffer.readBoolean();
+            return new CrucibleRecipe(recipeId, ingredients, base, result, heat);
         }
 
         @Override
-        public void toNetwork(PacketBuffer packet, CrucibleRecipe recipe) {
-            packet.writeVarInt(recipe.ingredients.size());
+        public void toNetwork(PacketBuffer buffer, CrucibleRecipe recipe) {
+            buffer.writeVarInt(recipe.ingredients.size());
             for (Ingredient ingredient : recipe.ingredients)
-                ingredient.toNetwork(packet);
-            recipe.base.writeToPacket(packet);
-            packet.writeItem(recipe.result);
-            packet.writeBoolean(recipe.heat);
+                ingredient.toNetwork(buffer);
+            recipe.base.writeToPacket(buffer);
+            buffer.writeItem(recipe.result);
+            buffer.writeBoolean(recipe.heat);
         }
     }
 }

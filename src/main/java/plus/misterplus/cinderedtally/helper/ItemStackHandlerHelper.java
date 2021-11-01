@@ -4,12 +4,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class ItemStackHandlerHelper {
-    public static ItemStack insertToFirstEmptySlot(ItemStackHandler handler, ItemStack itemStack, boolean simulate) {
+    public static ItemStack insertToFirstEmptySlot(ItemStackHandler handler, ItemStack stack, boolean simulate) {
         for (int i = 0; i < handler.getSlots(); i++) {
             if (handler.getStackInSlot(i).isEmpty())
-                return handler.insertItem(i, itemStack, simulate);
+                return handler.insertItem(i, stack, simulate);
         }
-        return itemStack;
+        return stack;
     }
 
     public static ItemStack extractAllFromLastFilledSlot(ItemStackHandler handler, boolean simulate) {
